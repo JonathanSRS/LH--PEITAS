@@ -1,0 +1,26 @@
+package br.com.lhp.model;
+
+public class Time {
+	private static String nome;
+	private static String pais;
+	private static String liga;
+	
+	public Time(String nome, String pais, String liga) {
+		Time.nome = nome;
+		Time.pais = pais;
+		Time.liga = liga;
+	}
+		public String getNome() {
+		return nome;
+	}
+
+	public String getPais() {
+		return pais;
+	}
+
+	public String getLiga() {
+		return liga;
+	}
+
+
+}

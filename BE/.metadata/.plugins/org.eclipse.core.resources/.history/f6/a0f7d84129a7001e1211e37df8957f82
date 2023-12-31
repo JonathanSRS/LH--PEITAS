@@ -1,0 +1,57 @@
+package br.com.model;
+
+public class camisa {
+
+	private static String nome;
+	private static int ano;
+	private static String cor;
+	private static String informativo;
+	private static char status;
+	
+	public camisa(String nome, int ano, String cor) {
+		camisa.nome = nome;
+		if(ano>1600)camisa.ano = ano;
+		camisa.cor = cor;
+	}
+
+	public static String getNome() {
+		return nome;
+	}
+
+	public static void setNome(String nome) {
+		camisa.nome = nome;
+	}
+
+	public static int getAno() {
+		return ano;
+	}
+
+	public static void setAno(int ano) {
+		camisa.ano = ano;
+	}
+
+	public static String getCor() {
+		return cor;
+	}
+
+	public static void setCor(String cor) {
+		camisa.cor = cor;
+	}
+
+	public static String getInformativo() {
+		return informativo;
+	}
+
+	public static void setInformativo(String informativo) {
+		camisa.informativo = informativo;
+	}
+
+	public static char getStatus() {
+		return status;
+	}
+
+	public static void setStatus(char status) {
+		camisa.status = status;
+	}
+
+}

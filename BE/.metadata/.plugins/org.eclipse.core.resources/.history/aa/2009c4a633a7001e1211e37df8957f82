@@ -1,0 +1,37 @@
+package br.com.model;
+
+public class time {
+	private static String nome;
+	private static String pais;
+	private static String liga;
+	
+	public time(String nome, String pais, String liga) {
+		time.nome = nome;
+		time.pais = pais;
+		time.liga = liga;
+	}
+		public static String getNome() {
+		return nome;
+	}
+
+	public static void setNome(String nome) {
+		time.nome = nome;
+	}
+
+	public static String getPais() {
+		return pais;
+	}
+
+	public static void setPais(String pais) {
+		time.pais = pais;
+	}
+
+	public static String getLiga() {
+		return liga;
+	}
+
+	public static void setLiga(String liga) {
+		time.liga = liga;
+	}
+
+}

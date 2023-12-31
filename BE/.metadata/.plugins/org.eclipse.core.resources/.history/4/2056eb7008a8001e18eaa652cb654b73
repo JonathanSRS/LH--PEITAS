@@ -1,0 +1,16 @@
+package br.com.lhp.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class ImagemDao {
+	private Connection conn;
+	protected PreparedStatement preparedStatement;
+	protected ResultSet resultSet;
+	
+	public ImagemDao(Connection connection) {
+		this.conn = connection;
+	}
+
+}

@@ -1,0 +1,12 @@
+1703895384291	Rename package 'br.com.DAO'
+1703895810394	Rename type 'conexaoDB'
+1703949602974	Encapsulate field 'status'
+1703949956300	Copy package
+1703949962478	Delete element
+1703952062087	Rename package 'service'
+1703954817823	Rename type 'ConnectionFactory'
+1703966328073	Rename package 'br.com.dao'
+1703966341972	Rename package 'br.com.model'
+1703966357065	Rename package 'br.com.service'
+1703966371550	Rename package 'br.com.view'
+1703977245230	Rename resource 'properties'

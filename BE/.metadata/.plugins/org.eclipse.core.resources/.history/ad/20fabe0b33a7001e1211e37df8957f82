@@ -1,0 +1,23 @@
+package br.com.service;
+
+
+import java.sql.Connection;
+
+import br.com.dao.ConnectionFactory;
+import br.com.dao.timeDao;
+
+public class timeService {
+	private ConnectionFactory connection;
+	
+	public void cadastrarTime() {
+		Connection conn = connection.recuperarConexao();
+		new timeDao(conn).armazenar();;
+		
+	}
+	
+	public timeService() {
+		// TODO Auto-generated constructor stub
+	}
+	
+
+}

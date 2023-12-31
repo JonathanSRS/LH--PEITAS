@@ -1,0 +1,36 @@
+package br.com.model.copy;
+
+public class time {
+	private static String nome;
+	private static String pais;
+	private static String liga;
+	
+	public time() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static String getNome() {
+		return nome;
+	}
+
+	public static void setNome(String nome) {
+		time.nome = nome;
+	}
+
+	public static String getPais() {
+		return pais;
+	}
+
+	public static void setPais(String pais) {
+		time.pais = pais;
+	}
+
+	public static String getLiga() {
+		return liga;
+	}
+
+	public static void setLiga(String liga) {
+		time.liga = liga;
+	}
+
+}

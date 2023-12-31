@@ -1,0 +1,5 @@
+package br.com.lhp.exception;
+
+public class ZeroExeception extends RuntimeException{
+
+}

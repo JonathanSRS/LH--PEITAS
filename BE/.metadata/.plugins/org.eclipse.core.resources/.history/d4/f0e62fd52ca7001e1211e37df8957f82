@@ -1,0 +1,13 @@
+package br.com.service;
+
+import java.sql.Connection;
+
+import br.com.dao.ConnectionFactory;
+
+public class timeService {
+	private ConnectionFactory connection;
+	public timeService() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

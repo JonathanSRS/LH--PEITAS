@@ -1,0 +1,9 @@
+package br.com.lhp.service;
+
+public class ImagemService {
+
+	public ImagemService() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

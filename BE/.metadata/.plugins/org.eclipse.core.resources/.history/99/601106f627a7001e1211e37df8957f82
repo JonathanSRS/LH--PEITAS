@@ -1,0 +1,10 @@
+package br.com.model;
+
+public class imagem {
+	private static String pasta;
+	private static String conteudo;
+	public imagem() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

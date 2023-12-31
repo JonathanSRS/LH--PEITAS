@@ -1,0 +1,28 @@
+package br.com.lhp.model;
+
+public class Imagem {
+	private static String pasta;
+	private static String conteudo;
+	
+	public Imagem(String pasta, String conteudo) {
+		Imagem.pasta = pasta;
+		Imagem.conteudo = conteudo;
+	}
+	
+	public static String getPasta() {
+		return pasta;
+	}
+	
+	public static String getConteudo() {
+		return conteudo;
+	}
+
+	public static void setPasta(String pasta) {
+		Imagem.pasta = pasta;
+	}
+	
+	public static void setConteudo(String conteudo) {
+		Imagem.conteudo = conteudo;
+	}
+	
+}

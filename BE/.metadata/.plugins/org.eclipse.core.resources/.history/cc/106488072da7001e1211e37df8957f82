@@ -1,0 +1,12 @@
+package br.com.service;
+
+
+import br.com.dao.ConnectionFactory;
+
+public class timeService {
+	private ConnectionFactory connection;
+	public timeService() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

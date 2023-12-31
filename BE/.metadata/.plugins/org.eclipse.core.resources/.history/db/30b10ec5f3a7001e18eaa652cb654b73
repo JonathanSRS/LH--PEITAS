@@ -1,0 +1,21 @@
+package br.com.lhp.view;
+
+import br.com.lhp.model.Time;
+import br.com.lhp.service.TimeService;
+
+public class LhpApplication {
+	private static TimeService service = new TimeService();
+	static String time = "barcelona";
+	static String pais = "espanha";
+	static String liga = "la liga";
+	
+	public static void main(String[] args) {
+		System.out.println("Teste de Cadastro de times");
+		service.cadastrarTime(new Time(time, pais, liga));
+		System.out.println("Time cadastrado com sucesso");
+		
+		int cod = service.buscarPorTime("america".toLowerCase());
+		System.out.println("Resultado Busca por time: " + cod);
+	}
+
+}

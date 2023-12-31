@@ -1,0 +1,34 @@
+package br.com.lhp.configuracao;
+
+
+
+import br.com.lhp.model.Uniforme;
+import br.com.lhp.service.TimeService;
+import br.com.lhp.service.UniformeService;
+
+public class LhpApplication {
+	private static TimeService service = new TimeService();
+	private static UniformeService serviceUni = new UniformeService();
+	
+	static String time = "barcelona";
+	static String pais = "espanha";
+	static String liga = "la liga";
+//	static Date temporada = new Date(2024, 05,10);
+	static String temporada = "2024/05";
+	public static void main(String[] args) {
+//		System.out.println("Teste de Cadastro de times");
+//		service.cadastrarTime(new Time(time, pais, liga));
+//		System.out.println("Time cadastrado com sucesso");
+		
+//		System.out.println("Teste de Cadastro de uniforme");
+//		serviceUni.cadastrarUniforme(new Uniforme("goleiro", temporada, "preta"), time);
+		
+		serviceUni.atualizarInformativo(10, "uniforme de Goleiro");
+		System.out.println("Atualizar Informativo");
+		
+		
+		int cod = service.buscarPorTime("america".toLowerCase());
+		System.out.println("Resultado Busca por time: " + cod);
+	}
+
+}

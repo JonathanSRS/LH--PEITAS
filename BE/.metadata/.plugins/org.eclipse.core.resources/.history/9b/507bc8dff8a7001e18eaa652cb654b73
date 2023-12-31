@@ -1,0 +1,9 @@
+package br.com.lhp.service;
+
+public class UniformeService {
+
+	public UniformeService() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

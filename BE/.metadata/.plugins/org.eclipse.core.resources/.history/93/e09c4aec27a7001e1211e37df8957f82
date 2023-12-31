@@ -1,0 +1,9 @@
+package br.com.model;
+
+public class imagem {
+
+	public imagem() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

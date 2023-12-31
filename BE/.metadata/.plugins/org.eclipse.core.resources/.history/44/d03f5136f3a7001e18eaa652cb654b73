@@ -1,0 +1,56 @@
+package br.com.lhp.model;
+
+import java.sql.Date;
+
+public class uniforme {
+	private static Date temporada;
+	private static int cod;
+	private static char status;
+	private static String cor;
+	private static String nome;
+	private static String informativo;
+	
+	public uniforme(int cod, String nome, Date temporada, String cor) {
+		Uniforme.cod = cod;
+		Uniforme.nome = nome;
+		Uniforme.temporada = temporada;
+		Uniforme.cor = cor;
+		Uniforme.status = 'A';
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public Date getTemporada() {
+		return temporada;
+	}
+
+	public String getCor() {
+		return cor;}
+
+	public String getInformativo() {
+		return informativo;
+	}
+
+	public char getStatus() {
+		return status;
+	}
+	
+	public int getCod() {
+		return cod;
+	}
+
+	public void setNome(String nome) {
+		Uniforme.nome = nome;
+	}
+	
+	public void setInformativo(String informativo) {
+		Uniforme.informativo = informativo;
+	}
+	
+	public void setStatus(char status) {
+		Uniforme.status = status;
+	}
+
+}
