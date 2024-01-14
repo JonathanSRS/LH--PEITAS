@@ -27,16 +27,14 @@ public class ImagemDao {
 	
 	public void armazenar(Imagem imagem, int cod) {
 		String sql = "INSERT INTO T_LHP_IMAGEM(cd_camisa, ds_conteudo) VALUES (?, ?)";
-		
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setInt(1, cod);	
 			preparedStatement.setString(2, imagem.getConteudo());		
 //			preparedStatement.setString(3, imagem.getPasta());		
-			
 			preparedStatement.execute();
 			preparedStatement.close();
-			conn.close();
+//			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}

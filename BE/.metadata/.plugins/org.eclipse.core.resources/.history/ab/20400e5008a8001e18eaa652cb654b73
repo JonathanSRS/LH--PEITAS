@@ -1,9 +1,0 @@
-package br.com.lhp.dao;
-
-public class ImagemDao {
-
-	public ImagemDao() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

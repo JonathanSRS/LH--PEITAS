@@ -1,0 +1,34 @@
+package br.com.lhp.dao;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import br.com.lhp.model.Uniforme;
+
+class UniformeDaoTest {
+
+	private Connection conn;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		this.conn = new Factory().recuperarConexao();
+		conn.setAutoCommit(false);
+	}
+	
+	@AfterEach
+	void afterEach() throws SQLException {
+		this.conn.close();
+	}
+	
+	@Test
+	void testAtualizarUniforme() {
+		new UniformeDao(conn).armazenar(new Uniforme("primeiro uniforme", "23", "Branco"), "são paulo");
+		new UniformeDao(conn).atualizar(24, "uniforme de Goleiro");
+//		System.out.println("Atualizar Informativo");
+	}
+
+//		System.out.println("Teste de Cadastro de uniforme");
+}

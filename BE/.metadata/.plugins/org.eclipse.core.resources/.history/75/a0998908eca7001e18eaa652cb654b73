@@ -1,5 +1,0 @@
-package br.com.lhp.exception;
-
-public class ZeroExeception {
-
-}

@@ -41,11 +41,29 @@ public class UniformeDao {
 			
 			preparedStatement.execute();
 			preparedStatement.close();
-			conn.close();
+//			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public int buscar(String nome) {
+		String sql = "SELECT * FROM T_LHP_CAMISA WHERE ds_informativo LIKE '%"+nome+"%'";
+		int cod_camisa = 0;
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next())cod_camisa = resultSet.getInt(1);
+			
+			resultSet.close();
+			preparedStatement.close();
+//			conn.close();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return cod_camisa;
+	}
+	
 	
 	public void atualizar(int cod, String informativo) {
 		String sql = "UPDATE T_LHP_CAMISA SET ds_informativo = ? WHERE cd_camisa = ?";
@@ -57,8 +75,8 @@ public class UniformeDao {
 			
 			preparedStatement.execute();
 			preparedStatement.close();
-			conn.close();
 			conn.commit();
+//			conn.close();
 		}catch(SQLException e) {
 			try {
                 conn.rollback();

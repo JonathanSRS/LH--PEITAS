@@ -1,0 +1,35 @@
+package br.com.lhp.dao;
+
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import br.com.lhp.model.Imagem;
+
+class ImagemDaoTest {
+	private Connection conn;
+	
+	@BeforeEach
+	public void beforeEach() throws SQLException {
+		this.conn =  new Factory().recuperarConexao();
+		conn.setAutoCommit(false);
+	}
+	
+//	@AfterEach
+//	public void afterEach() throws SQLException{
+//		conn.rollback();
+//	}
+	@Test
+	void cadastrarImagem() {
+		new ImagemDao(conn).armazenar(new Imagem("","https://www.futebolreligiao.com.br/image/cache/catalog/al-nassr/camisa-i-al-nassr-2023-2024-home-1-900x900.webp?1688595021"), 1);
+//		ImagemService seriviceIm = new ImagemService();
+//		Boolean teste = seriviceIm.cadastrarImagem(new Imagem("","https://www.futebolreligiao.com.br/image/cache/catalog/al-nassr/camisa-i-al-nassr-2023-2024-home-1-900x900.webp?1688595021"), 1);
+		
+//		assertEquals(teste, true);
+	}
+
+}

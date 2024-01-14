@@ -1,5 +1,0 @@
-Banco = oracle
-Host = localhost
-porta = 1521
-Login = system
-Password = root

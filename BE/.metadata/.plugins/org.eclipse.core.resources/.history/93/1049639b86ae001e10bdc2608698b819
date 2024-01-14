@@ -1,0 +1,40 @@
+package br.com.lhp.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import br.com.lhp.model.Time;
+
+class TimeDaoTest {
+	private Connection conn;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		this.conn =  new Factory().recuperarConexao();
+		conn.setAutoCommit(false);
+	}
+	
+	@AfterEach 
+	public void afterEach() throws SQLException{
+		conn.close();
+	}
+
+	@Test
+	void test() {
+		Time time = new Time("São Paulo", "Brasileirão", "Brasil");
+		new TimeDao(conn).armazenar(time);
+		Assert.assertNotNull(new TimeDao(conn).buscar("são paulo"));
+	}
+	
+	@Test
+	void ListaTimes() {
+		new TimeDao(conn).listar();
+//		times.stream().forEach(System.out::println);
+	}
+
+}

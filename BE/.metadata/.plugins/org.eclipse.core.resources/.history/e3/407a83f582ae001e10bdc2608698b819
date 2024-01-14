@@ -1,0 +1,64 @@
+package br.com.lhp.dao;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import br.com.lhp.model.Imagem;
+
+public class ImagemDao {
+	private Connection conn;
+	protected PreparedStatement preparedStatement;
+	protected ResultSet resultSet;
+	
+	public ImagemDao(Connection connection) {
+		this.conn = connection;
+		
+		try {
+			String sqlUser = "ALTER SESSION SET CURRENT_SCHEMA = LHP";
+			preparedStatement = conn.prepareStatement(sqlUser);
+			preparedStatement.execute();
+			preparedStatement.close();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void armazenar(Imagem imagem, int cod) {
+		String sql = "INSERT INTO T_LHP_IMAGEM(cd_camisa, ds_conteudo) VALUES (?, ?)";
+		try {
+			preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setInt(1, cod);	
+			preparedStatement.setString(2, imagem.getConteudo());		
+//			preparedStatement.setString(3, imagem.getPasta());		
+			preparedStatement.execute();
+			ResultSet resultado = preparedStatement.getGeneratedKeys();
+			if(resultado.next()) {
+				int id = resultado.getInt(1);
+//				imagem.setCod(id);
+			}
+			preparedStatement.close();
+//			conn.close();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void delete(int cod) {
+		String sql = "DELETE FROM T_LHP_IMAGEM where cd_imagem = ?";
+		
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, cod);
+			
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+}

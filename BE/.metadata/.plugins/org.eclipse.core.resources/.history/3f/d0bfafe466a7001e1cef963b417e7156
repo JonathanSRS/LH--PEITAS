@@ -1,6 +1,0 @@
-Banco = oracle
-Host = localhost
-Porta = 1521
-Login = system
-Password = root
-Sid = xe

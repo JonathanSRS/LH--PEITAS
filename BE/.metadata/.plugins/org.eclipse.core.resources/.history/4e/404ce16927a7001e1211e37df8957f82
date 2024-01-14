@@ -1,9 +1,0 @@
-package br.com.model;
-
-public class time {
-
-	public time() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

@@ -1,0 +1,25 @@
+package br.com.lhp.dao;
+import java.sql.Connection;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class UniformeDaoTest {
+
+	private Connection conn;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		this.conn = new Factory().recuperarConexao();
+		conn.setAutoCommit(false);
+	}
+
+	@Test
+	void testAtualizarUniforme() {
+		new UniformeDao(conn).atualizar(24, "uniforme de Goleiro");
+//		System.out.println("Atualizar Informativo");
+	}
+
+//		System.out.println("Teste de Cadastro de uniforme");
+//		serviceUni.cadastrarUniforme(new Uniforme("primeiro uniforme", temporada, "amarelo"), time);
+}

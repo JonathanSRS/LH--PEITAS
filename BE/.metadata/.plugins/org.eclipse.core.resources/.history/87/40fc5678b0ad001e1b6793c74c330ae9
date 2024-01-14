@@ -1,0 +1,20 @@
+package br.com.lhp.dao;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+import br.com.lhp.model.Imagem;
+import br.com.lhp.service.ImagemService;
+
+class ImagemServiceTest {
+
+	@Test
+	void cadastrarImagem() {
+		ImagemService seriviceIm = new ImagemService();
+		Boolean teste = seriviceIm.cadastrarImagem(new Imagem("","https://www.futebolreligiao.com.br/image/cache/catalog/al-nassr/camisa-i-al-nassr-2023-2024-home-1-900x900.webp?1688595021"), 1);
+		
+		assertEquals(teste, true);
+	}
+
+}

@@ -35,7 +35,6 @@ public class TimeDao {
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			
-			
 			preparedStatement.setString(1, time.getNome());		
 			preparedStatement.setString(2, time.getPais());		
 			preparedStatement.setString(3, time.getLiga());	
@@ -43,8 +42,7 @@ public class TimeDao {
 			preparedStatement.execute();
 			
 			preparedStatement.close();
-			
-			conn.close();
+//			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -59,7 +57,7 @@ public class TimeDao {
 			
 			resultSet.close();
 			preparedStatement.close();
-			conn.close();
+//			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -115,10 +113,10 @@ public class TimeDao {
 				String temporada = resultSet.getString(4);
 				String conteudo = resultSet.getString(5);
 				
-				list.add(time);
-				list.add(camisa);
-				list.add(temporada);
-				list.add(conteudo);
+				list.add("Time: "+time);
+				list.add("Camisa "+camisa);
+				list.add("Temporada: "+temporada);
+				list.add("Link: "+conteudo);
 				
 				query.add(list);
 			}

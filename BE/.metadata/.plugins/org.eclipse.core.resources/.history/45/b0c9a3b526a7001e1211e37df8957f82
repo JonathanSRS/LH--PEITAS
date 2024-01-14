@@ -1,9 +1,0 @@
-package br.com.model;
-
-public class camisa {
-
-	public camisa() {
-		// TODO Auto-generated constructor stub
-	}
-
-}
