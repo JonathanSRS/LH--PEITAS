@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UniformeDaoTest" project="LH - PEITAS" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="br.com.lhp.dao.UniformeDaoTest" time="0.564" displayname="UniformeDaoTest" uniqueid="[engine:junit-jupiter]/[class:br.com.lhp.dao.UniformeDaoTest]">
+    <testcase name="testListaUniformes" classname="br.com.lhp.dao.UniformeDaoTest" time="0.564" displayname="testListaUniformes()" uniqueid="[engine:junit-jupiter]/[class:br.com.lhp.dao.UniformeDaoTest]/[method:testListaUniformes()]"/>
+  </testsuite>
+</testrun>

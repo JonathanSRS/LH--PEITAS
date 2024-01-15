@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 import br.com.lhp.model.Uniforme;
 import br.com.lhp.service.TimeService;
@@ -27,7 +29,7 @@ public class UniformeDao {
 	
 	public void armazenar(Uniforme uniforme, String time) {
 		String sql = "INSERT INTO T_LHP_CAMISA(dt_ano, nm_camisa, ds_cor, st_status, cd_time)" 
-					+ "VALUES (TO_DATE(?, 'yyyy/mm'),?,?,'A',?)";
+					+ "VALUES (TO_DATE(?, 'yyyy'),?,?,'A',?)";
 		
 		int cod = service.buscarPorTime(time);
 		try {
@@ -75,7 +77,7 @@ public class UniformeDao {
 			
 			preparedStatement.execute();
 			preparedStatement.close();
-			conn.commit();
+//			conn.commit();
 //			conn.close();
 		}catch(SQLException e) {
 			try {
@@ -83,6 +85,51 @@ public class UniformeDao {
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public Set<Uniforme> listar(){
+		String sql = "SELECT * FROM T_LHP_CAMISA WHERE ST_STATUS = 'A'";
+		Set<Uniforme> uniforme = new HashSet<>();
+		
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				int cod_camisa = resultSet.getInt(1);
+				String temporada = resultSet.getDate(2).toString();
+				String informativo = resultSet.getString(3);
+				String nome = resultSet.getString(4);
+				String cor = resultSet.getString(5);
+				Uniforme un = new Uniforme(nome,temporada,cor);
+				un.setInformativo(informativo);
+				un.setCod(cod_camisa);
+				uniforme.add(un);
+			}
+			resultSet.close();
+			preparedStatement.close();
+//			conn.close();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+		return uniforme;
+	}
+	
+	
+	public void delete(int cod) {
+		String sql = "DELETE FROM T_LHP_CAMISA where cd_camisa = ?";
+		
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, cod);
+			
+			preparedStatement.execute();
+			preparedStatement.close();
+//			conn.close();
+		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

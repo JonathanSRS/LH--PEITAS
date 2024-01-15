@@ -49,7 +49,7 @@ public class ImagemDao {
 			
 			preparedStatement.execute();
 			preparedStatement.close();
-			conn.close();
+//			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
