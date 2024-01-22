@@ -2,6 +2,7 @@ package br.com.lhp.service;
 
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Set;
 
 import br.com.lhp.dao.Factory;
@@ -17,8 +18,13 @@ public class TimeService {
 	}
 
 	public void cadastrarTime(Time time) {
-		Connection conn = connection.recuperarConexao();
-		new TimeDao(conn).armazenar(time);
+		try {
+			Connection conn = connection.recuperarConexao();
+			new TimeDao(conn).armazenar(time);
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 

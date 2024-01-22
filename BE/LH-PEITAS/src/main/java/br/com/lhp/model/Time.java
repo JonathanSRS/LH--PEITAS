@@ -22,13 +22,13 @@ public class Time {
 		return liga;
 	}
 
-	@Override
-	public String toString() {
-		return "Time{"+
-				"Nome "+nome+
-				", Pais "+pais+
-				", Liga "+liga+"}"
-				;
-	}
+//	@Override
+//	public String toString() {
+//		return "{"+
+//				"\"Nome\""+":"+"\""+nome+"\""+
+//				", \"Pais\""+":"+"\""+pais+"\""+
+//				", \"Liga\""+":"+"\""+liga+"\""+"}"
+//				;
+//	}
 
 }
