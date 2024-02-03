@@ -8,6 +8,7 @@ import java.util.Set;
 import br.com.lhp.dao.Factory;
 import br.com.lhp.dao.TimeDao;
 import br.com.lhp.exception.ZeroException;
+import br.com.lhp.model.Base;
 import br.com.lhp.model.Time;
 
 public class TimeService {
@@ -42,7 +43,7 @@ public class TimeService {
 		return new TimeDao(conn).listar();
 	}
 
-	public Set<Object> BaseDeTimes(String nome){
+	public Set<Base> BaseDeTimes(String nome){
 		Connection conn = connection.recuperarConexao();
 		return new TimeDao(conn).innerJoin(nome);
 	}

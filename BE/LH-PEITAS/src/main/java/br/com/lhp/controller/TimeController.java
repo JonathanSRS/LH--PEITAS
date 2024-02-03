@@ -54,7 +54,7 @@ public class TimeController extends HttpServlet {
 		BufferedReader  data =  request.getReader();
 		StringBuilder obj = new StringBuilder();
 		String linha;
-		
+		ArrayList<Object> base = new ArrayList<>();
 		while((linha = data.readLine()) != null ){
 			obj.append(linha);
 			System.out.println(linha);
@@ -64,8 +64,14 @@ public class TimeController extends HttpServlet {
 		String time = jsonTxt.get("time").getAsString();
 		
 		response.setContentType("application/json");
+		
 		Gson gson = new Gson();
-		String resp = gson.toJson(service.BaseDeTimes(time));
+		service.BaseDeTimes(time).stream()
+		.forEach((k) -> {
+			base.add(k);
+		});
+		
+		String resp = gson.toJson(base);
 		response.getWriter().print(resp);
 		
 	}

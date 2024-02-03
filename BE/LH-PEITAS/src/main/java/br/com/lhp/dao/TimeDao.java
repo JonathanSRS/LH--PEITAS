@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import br.com.lhp.model.Base;
 import br.com.lhp.model.Time;
 
 public class TimeDao {
@@ -89,9 +89,8 @@ public class TimeDao {
 		return times;
 	}
 
-	public Set<Object> innerJoin(String nome){
-		Set<Object> query = new HashSet<>();
-		ArrayList<String> list = new ArrayList<>();
+	public Set<Base> innerJoin(String nome){
+		Set<Base> list = new HashSet<>();
 
 		String sql ="SELECT "
 				+"t.cd_time"
@@ -113,10 +112,9 @@ public class TimeDao {
 				String temporada = resultSet.getString(4);
 				String conteudo = resultSet.getString(5);
 
-				list.add(String.format("Time: %s, Uniforme: %s, Temporada: %s, Link: %s",time,camisa,temporada,conteudo));
+				list.add(new Base(time,camisa,temporada,conteudo));
 
 			}
-			query.add(list);
 			resultSet.close();
 			preparedStatement.close();
 			conn.close();
@@ -124,7 +122,7 @@ public class TimeDao {
 			throw new RuntimeException(e);
 		}
 
-		return query;
+		return list;
 	}
 
 	public void delete(int cod) {
