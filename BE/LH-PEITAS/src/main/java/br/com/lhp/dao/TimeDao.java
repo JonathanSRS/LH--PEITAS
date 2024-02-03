@@ -113,13 +113,10 @@ public class TimeDao {
 				String temporada = resultSet.getString(4);
 				String conteudo = resultSet.getString(5);
 
-				list.add("Time: "+time);
-				list.add("Camisa "+camisa);
-				list.add("Temporada: "+temporada);
-				list.add("Link: "+conteudo);
+				list.add(String.format("Time: %s, Uniforme: %s, Temporada: %s, Link: %s",time,camisa,temporada,conteudo));
 
-				query.add(list);
 			}
+			query.add(list);
 			resultSet.close();
 			preparedStatement.close();
 			conn.close();
