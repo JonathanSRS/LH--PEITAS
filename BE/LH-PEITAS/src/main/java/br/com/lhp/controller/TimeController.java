@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import br.com.lhp.model.Time;
 import br.com.lhp.service.TimeService;
 
-@WebServlet(urlPatterns = {"/listarTimes", "/Base"})
+@WebServlet(urlPatterns = {"/listarTimes", "/base", "/postTime"})
 public class TimeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	TimeService service = new TimeService();
@@ -27,7 +27,7 @@ public class TimeController extends HttpServlet {
 		case "/listarTimes":
 			lista(request, response);			
 			break;
-		case "/Base":
+		case "/base":
 			base(request, response);
 			break;
 		default:
@@ -36,6 +36,17 @@ public class TimeController extends HttpServlet {
 		
 	}
 	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+		String acao = request.getServletPath();
+		switch (acao) {
+		case "/postTime":
+			criarTime(request, response);			
+			break;
+		default:
+			break;
+		}
+		
+	}
 	
 	protected void lista(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		
@@ -50,6 +61,7 @@ public class TimeController extends HttpServlet {
 		response.getWriter().print(jsonTxt);
 		
 	}
+	
 	protected void base(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		BufferedReader  data =  request.getReader();
 		StringBuilder obj = new StringBuilder();
@@ -74,6 +86,23 @@ public class TimeController extends HttpServlet {
 		String resp = gson.toJson(base);
 		response.getWriter().print(resp);
 		
+	}
+	
+	protected void criarTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		BufferedReader  data =  request.getReader();
+		StringBuilder obj = new StringBuilder();
+		String linha;
+		while((linha = data.readLine()) != null ){
+			obj.append(linha);
+			System.out.println(linha);
+		}
+		JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
+		String nome = jsonTxt.get("nome").getAsString();
+		String pais = jsonTxt.get("pais").getAsString();
+		String liga = jsonTxt.get("liga").getAsString();
+		Time time = new Time(nome, pais, liga);
+		
+		service.cadastrarTime(time);
 	}
 	
 	
