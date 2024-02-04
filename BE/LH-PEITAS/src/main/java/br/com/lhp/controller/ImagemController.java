@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import br.com.lhp.model.Imagem;
 import br.com.lhp.service.ImagemService;
 
-@WebServlet("/cadastrarImagem")
+@WebServlet(urlPatterns = {"/cadastrarImagem", "/imagem"})
 public class ImagemController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	ImagemService service = new ImagemService();
@@ -59,6 +59,23 @@ public class ImagemController extends HttpServlet{
 	}
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		
+		if(request.getContentType().equals("application/json")) {
+			BufferedReader  data =  request.getReader();
+			StringBuilder obj = new StringBuilder();
+			String linha;
+			while((linha = data.readLine()) != null ){
+				obj.append(linha);
+				System.out.println(linha);
+			}
+			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
+			int id = jsonTxt.get("id_imagem").getAsInt();
+			
+			service.excluirImagem(id);
+			
+			
+		}else {
+			response.setStatus(406);
+			response.getWriter().print("Content-type Invalido");
+		}
 	}
 }

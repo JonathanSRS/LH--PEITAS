@@ -48,6 +48,18 @@ public class TimeController extends HttpServlet {
 		
 	}
 	
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+		String acao = request.getServletPath();
+		switch (acao) {
+		case "":
+			
+			break;
+
+		default:
+			break;
+		}
+	}
+	
 	protected void lista(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		
 		response.setContentType("application/json");

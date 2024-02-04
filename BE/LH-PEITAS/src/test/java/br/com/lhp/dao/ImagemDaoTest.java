@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.lhp.model.Imagem;
+import org.junit.Assert;
 
 class ImagemDaoTest {
 	private Connection conn;
@@ -30,5 +31,11 @@ class ImagemDaoTest {
 		Imagem imagem = new Imagem("","https://www.futebolreligiao.com.br/image/cache/catalog/al-nassr/camisa-i-al-nassr-2023-2024-home-1-900x900.webp?1688595021");
 		new ImagemDao(conn).armazenar(imagem, 1);
 //		Assert.assertNotNull(imagem.getCod());
+	}
+	
+	@Test
+	void delete() {
+		int retorno = new ImagemDao(conn).delete(62);
+		Assert.assertEquals(1, retorno);
 	}
 }

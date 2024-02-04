@@ -125,18 +125,20 @@ public class TimeDao {
 		return list;
 	}
 
-	public void delete(int cod) {
+	public int delete(int cod) {
 		String sql = "DELETE FROM T_LHP_TIME where cd_time = ?";
-
+		int retorno = 0; 
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setInt(1, cod);
 
-			preparedStatement.execute();
+			retorno = preparedStatement.executeUpdate();
 			preparedStatement.close();
 //			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
+		
+		return retorno;
 	}
 }
