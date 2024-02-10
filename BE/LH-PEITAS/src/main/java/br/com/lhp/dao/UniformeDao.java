@@ -51,7 +51,8 @@ public class UniformeDao {
 			}catch(SQLException e) {
 				throw new RuntimeException(e);
 			}
-			
+		}else if(list.isEmpty()) {
+			throw new RuntimeException("nenhum valor encontrado");
 		}else {
 			throw new RuntimeException("Mais de um valor correspondente");
 		}
@@ -127,18 +128,20 @@ public class UniformeDao {
 	}
 
 
-	public void delete(int cod) {
+	public int delete(int cod) {
 		String sql = "DELETE FROM T_LHP_CAMISA where cd_camisa = ?";
-
+		int retorno = 0;
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setInt(1, cod);
 
-			preparedStatement.execute();
+			retorno = preparedStatement.executeUpdate();
 			preparedStatement.close();
 //			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
+		
+		return retorno;
 	}
 }
