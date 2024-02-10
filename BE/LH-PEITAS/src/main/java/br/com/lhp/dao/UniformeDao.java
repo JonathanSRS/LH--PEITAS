@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import br.com.lhp.model.Time;
 import br.com.lhp.model.Uniforme;
 import br.com.lhp.service.TimeService;
 
@@ -30,22 +32,28 @@ public class UniformeDao {
 	public void armazenar(Uniforme uniforme, String time) {
 		String sql = "INSERT INTO T_LHP_CAMISA(dt_ano, nm_camisa, ds_cor, st_status, cd_time)"
 					+ "VALUES (TO_DATE(?, 'yyyy'),?,?,'A',?)";
-
-		int cod = service.buscarPorTime(time);
-		try {
-			preparedStatement = conn.prepareStatement(sql);
-
-			preparedStatement.setString(1, uniforme.getTemporada());
+		ArrayList<Time> list = new ArrayList<>(service.buscarPorTime(time));
+		if(list.size() == 1 ) {
+			int cod = list.get(0).getId();
+			
+			try {
+				preparedStatement = conn.prepareStatement(sql);
+				
+				preparedStatement.setString(1, uniforme.getTemporada());
 //			preparedStatement.setString(2, uniforme.getInformativo());
-			preparedStatement.setString(2, uniforme.getNome());
-			preparedStatement.setString(3, uniforme.getCor());
-			preparedStatement.setInt(4, cod);
-
-			preparedStatement.execute();
-			preparedStatement.close();
+				preparedStatement.setString(2, uniforme.getNome());
+				preparedStatement.setString(3, uniforme.getCor());
+				preparedStatement.setInt(4, cod);
+				
+				preparedStatement.execute();
+				preparedStatement.close();
 //			conn.close();
-		}catch(SQLException e) {
-			throw new RuntimeException(e);
+			}catch(SQLException e) {
+				throw new RuntimeException(e);
+			}
+			
+		}else {
+			throw new RuntimeException("Mais de um valor correspondente");
 		}
 	}
 

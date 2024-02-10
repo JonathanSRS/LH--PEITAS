@@ -29,13 +29,9 @@ public class TimeService {
 
 	}
 
-	public int buscarPorTime(String nome) {
-			Connection conn = connection.recuperarConexao();
-			int result = new TimeDao(conn).buscar(nome);
-			if(result == 0) {
-				throw new ZeroException();
-			}
-			return result;
+	public Set<Time> buscarPorTime(String nome) {
+			Connection conn = connection.recuperarConexao();			
+			return new TimeDao(conn).likeTime(nome);
 	}
 
 	public Set<Time> listaTimes(){
@@ -46,6 +42,11 @@ public class TimeService {
 	public Set<Base> BaseDeTimes(String nome){
 		Connection conn = connection.recuperarConexao();
 		return new TimeDao(conn).innerJoin(nome);
+	}
+	
+	public int excluirTime(int id) {
+		Connection conn = connection.recuperarConexao();
+		return new TimeDao(conn).delete(id);
 	}
 
 }

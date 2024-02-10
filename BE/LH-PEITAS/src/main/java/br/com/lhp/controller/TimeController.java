@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import br.com.lhp.model.Time;
 import br.com.lhp.service.TimeService;
 
-@WebServlet(urlPatterns = {"/listarTimes", "/base", "/postTime"})
+@WebServlet(urlPatterns = {"/listarTimes", "/base", "/postTime", "/buscarTime"})
 public class TimeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	TimeService service = new TimeService();
@@ -29,6 +29,9 @@ public class TimeController extends HttpServlet {
 			break;
 		case "/base":
 			base(request, response);
+			break;
+		case "/buscarTime":
+			buscarTime(request, response);
 			break;
 		default:
 			break;
@@ -100,6 +103,21 @@ public class TimeController extends HttpServlet {
 		
 	}
 	
+	protected void buscarTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		String time = request.getParameter("time");
+		response.setContentType("application/json");
+		Gson gson = new Gson();
+		ArrayList<Object> times = new ArrayList<>();
+		service.buscarPorTime(time).stream()
+		.forEach((k) -> {
+			times.add(k);
+		});
+		
+		String resp = gson.toJson(times);
+		response.getWriter().print(resp);
+		
+	}
+	
 	protected void criarTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		BufferedReader  data =  request.getReader();
 		StringBuilder obj = new StringBuilder();
@@ -117,6 +135,25 @@ public class TimeController extends HttpServlet {
 		service.cadastrarTime(time);
 	}
 	
-	
+	protected void excluirTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
+		if(request.getContentType().equals("application/json")) {
+			BufferedReader  data =  request.getReader();
+			StringBuilder obj = new StringBuilder();
+			String linha;
+			while((linha = data.readLine()) != null ){
+				obj.append(linha);
+				System.out.println(linha);
+			}
+			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
+			int id = jsonTxt.get("id_time").getAsInt();
+			
+			service.excluirTime(id);
+			
+			
+		}else {
+			response.setStatus(406);
+			response.getWriter().print("Content-type Invalido");
+		}
+	}
 
 }

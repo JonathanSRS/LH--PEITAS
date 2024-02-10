@@ -30,9 +30,17 @@ class TimeDaoTest {
 
 	@Test
 	void testBuscarTime() {
+		ArrayList<String> listDeTimes = new ArrayList<>();
 		Time time = new Time("São Paulo", "Brasileirão", "Brasil");
 		new TimeDao(conn).armazenar(time);
-		Assert.assertNotEquals(0,new TimeDao(conn).buscar("são paulo"));
+		new TimeDao(conn).likeTime("são paulo").stream().
+		forEach((k) -> {
+			if(k.getNome().contains("são paulo")) {
+				listDeTimes.add(k.getId()+", "+k.getNome() +", " +k.getLiga() + ", " +k.getPais());
+			}
+		});
+		System.out.println(listDeTimes.get(0));
+		Assert.assertNotEquals("43, são paulo, brasileirão serie a, brasil", listDeTimes);
 	}
 
 	@Test

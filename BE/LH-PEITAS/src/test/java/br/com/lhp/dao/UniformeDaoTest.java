@@ -8,6 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import br.com.lhp.model.Uniforme;
+
 class UniformeDaoTest {
 
 	private Connection conn;
@@ -32,6 +34,11 @@ class UniformeDaoTest {
 //		System.out.println("Atualizar Informativo");
 //	}
 //
+	@Test
+	void testCadastrarUniforme() {
+		Uniforme uniforme = new Uniforme("made in cotia", "2024","vermelho");
+		new UniformeDao(conn).armazenar(uniforme, "são paulo");
+	}
 	@Test
 	void testListaUniformes() {
 		ArrayList<String> listDeUniformes = new ArrayList<>();

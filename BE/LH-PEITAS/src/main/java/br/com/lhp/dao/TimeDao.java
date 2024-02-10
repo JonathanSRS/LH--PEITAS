@@ -47,21 +47,28 @@ public class TimeDao {
 			throw new RuntimeException(e);
 		}
 	}
-	public int buscar(String nome) {
-		String sql = "SELECT * FROM T_LHP_TIME WHERE nm_time LIKE '%"+nome+"%'";
-		int cod_time = 0;
+	public Set<Time> likeTime(String nome) {
+		String sql = "SELECT * FROM T_LHP_TIME WHERE nm_time LIKE '%"+nome.toLowerCase()+"%'";
+		Set<Time> times = new HashSet<>();
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();
-			if(resultSet.next())cod_time = resultSet.getInt(1);
+			
+			while(resultSet.next()) {
+				int id =resultSet.getInt(1);
+				String nomeTime = resultSet.getString(2);
+				String pais = resultSet.getString(3);
+				String liga = resultSet.getString(4);
+				times.add(new Time(id,nomeTime,pais,liga));
+			}
 
 			resultSet.close();
 			preparedStatement.close();
-//			conn.close();
+			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
-		return cod_time;
+		return times;
 	}
 
 
@@ -74,10 +81,11 @@ public class TimeDao {
 			resultSet = preparedStatement.executeQuery();
 
 			while(resultSet.next()) {
+				int id =resultSet.getInt(1);
 				String nome = resultSet.getString(2);
 				String pais = resultSet.getString(3);
 				String liga = resultSet.getString(4);
-				times.add(new Time(nome,pais,liga));
+				times.add(new Time(id, nome,pais,liga));
 			}
 			resultSet.close();
 			preparedStatement.close();
