@@ -40,9 +40,7 @@ public class TimeDao {
 			preparedStatement.setString(3, time.getLiga());
 
 			preparedStatement.execute();
-
 			preparedStatement.close();
-//			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -142,7 +140,7 @@ public class TimeDao {
 
 			retorno = preparedStatement.executeUpdate();
 			preparedStatement.close();
-//			conn.close();
+			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}

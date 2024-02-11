@@ -7,7 +7,6 @@ import java.util.Set;
 
 import br.com.lhp.dao.Factory;
 import br.com.lhp.dao.TimeDao;
-import br.com.lhp.exception.ZeroException;
 import br.com.lhp.model.Base;
 import br.com.lhp.model.Time;
 

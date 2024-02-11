@@ -71,9 +71,15 @@ public class TimeController extends HttpServlet {
 		forEach((k) -> {
 			listDeTimes.add(k);
 		});
-		Gson gson = new Gson();
-		String jsonTxt = gson.toJson(listDeTimes);
-		response.getWriter().print(jsonTxt);
+		if(listDeTimes.isEmpty()) {
+			response.setStatus(404);
+			response.getWriter().print("Not found");
+			
+		}else {
+			Gson gson = new Gson();
+			String jsonTxt = gson.toJson(listDeTimes);
+			response.getWriter().print(jsonTxt);
+		}
 		
 	}
 	
@@ -84,7 +90,6 @@ public class TimeController extends HttpServlet {
 		ArrayList<Object> base = new ArrayList<>();
 		while((linha = data.readLine()) != null ){
 			obj.append(linha);
-			System.out.println(linha);
 		}
 		
 		JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
@@ -92,29 +97,38 @@ public class TimeController extends HttpServlet {
 		
 		response.setContentType("application/json");
 		
-		Gson gson = new Gson();
 		service.BaseDeTimes(time).stream()
 		.forEach((k) -> {
 			base.add(k);
 		});
 		
-		String resp = gson.toJson(base);
-		response.getWriter().print(resp);
+		if(base.isEmpty()) {
+			response.setStatus(404);
+			response.getWriter().print("Not found");
+		}else {
+			Gson gson = new Gson();
+			String resp = gson.toJson(base);
+			response.getWriter().print(resp);
+		}
 		
 	}
 	
 	protected void buscarTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		String time = request.getParameter("time");
 		response.setContentType("application/json");
-		Gson gson = new Gson();
 		ArrayList<Object> times = new ArrayList<>();
 		service.buscarPorTime(time).stream()
 		.forEach((k) -> {
 			times.add(k);
 		});
-		
-		String resp = gson.toJson(times);
-		response.getWriter().print(resp);
+		if(times.isEmpty()) {
+			response.setStatus(404);
+			response.getWriter().print("Not found");
+		}else {
+			Gson gson = new Gson();
+			String resp = gson.toJson(times);
+			response.getWriter().print(resp);
+		}
 		
 	}
 	
@@ -124,7 +138,6 @@ public class TimeController extends HttpServlet {
 		String linha;
 		while((linha = data.readLine()) != null ){
 			obj.append(linha);
-			System.out.println(linha);
 		}
 		JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 		String nome = jsonTxt.get("nome").getAsString();
@@ -133,6 +146,8 @@ public class TimeController extends HttpServlet {
 		Time time = new Time(nome, pais, liga);
 		
 		service.cadastrarTime(time);
+		response.setStatus(201);
+		response.getWriter().print("Sucesso");
 	}
 	
 	protected void excluirTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
@@ -142,13 +157,19 @@ public class TimeController extends HttpServlet {
 			String linha;
 			while((linha = data.readLine()) != null ){
 				obj.append(linha);
-				System.out.println(linha);
 			}
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			int id = jsonTxt.get("id_time").getAsInt();
 			
-			service.excluirTime(id);
-			
+			int result = service.excluirTime(id);
+			if(result == 1) {
+				response.setStatus(201);
+				response.getWriter().print("Sucesso");
+			}else {
+				response.setStatus(400);
+				response.getWriter().print("Erro");
+				
+			}
 			
 		}else {
 			response.setStatus(406);
