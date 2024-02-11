@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import br.com.lhp.dao.BodyReader;
 import br.com.lhp.model.Uniforme;
 import br.com.lhp.service.UniformeService;
 
 @WebServlet(urlPatterns = {"/postUniforme", "/updateInfo", "/delUniforme", "/listUniformes"})
-public class UniformeController extends HttpServlet{
+public class UniformeController extends HttpServlet implements BodyReader{
 	private static final long serialVersionUID = 1L;
 	
 	UniformeService service = new UniformeService();
@@ -73,14 +74,9 @@ public class UniformeController extends HttpServlet{
 	
 	protected void cadastrarUniforme(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getContentType().equals("application/json")) {
-			
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = new StringBuilder();
-			String linha;
-			while((linha = data.readLine()) != null ){
-				obj.append(linha);
-				System.out.println(linha);
-			}
+			StringBuilder obj = (StringBuilder) ler(data);
+			
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			try {
 				String nome = jsonTxt.get("nome").getAsString();
@@ -95,7 +91,7 @@ public class UniformeController extends HttpServlet{
 					
 				}catch(RuntimeException e) {
 					response.setStatus(500);
-					response.getWriter().print("Problemas internos por favor contante o administrador do serviço");;
+					response.getWriter().print("Problemas internos por favor contate o administrador do serviço");;
 				}
 				
 			}catch(NullPointerException e) {
@@ -128,12 +124,7 @@ public class UniformeController extends HttpServlet{
 	protected void excluirUniforme(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		if(request.getContentType().equals("application/json")) {
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = new StringBuilder();
-			String linha;
-			
-			while((linha = data.readLine()) != null ){
-				obj.append(linha);
-			}
+			StringBuilder obj = (StringBuilder) ler(data);
 			
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			int id = jsonTxt.get("id_uniforme").getAsInt();
@@ -156,12 +147,8 @@ public class UniformeController extends HttpServlet{
 	protected void atualizarInfo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		if(request.getContentType().equals("application/json")) {
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = new StringBuilder();
-			String linha;
+			StringBuilder obj = (StringBuilder) ler(data);
 			
-			while((linha = data.readLine()) != null ){
-				obj.append(linha);
-			}
 			
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			int id = jsonTxt.get("cod_camisa").getAsInt();
