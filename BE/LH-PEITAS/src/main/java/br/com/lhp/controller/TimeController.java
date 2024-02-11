@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import br.com.lhp.model.Time;
 import br.com.lhp.service.TimeService;
 
-@WebServlet(urlPatterns = {"/listarTimes", "/base", "/postTime", "/buscarTime"})
+@WebServlet(urlPatterns = {"/listarTimes", "/base", "/postTime", "/buscarTime", "/excluir"})
 public class TimeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	TimeService service = new TimeService();
@@ -54,8 +54,8 @@ public class TimeController extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		String acao = request.getServletPath();
 		switch (acao) {
-		case "":
-			
+		case "/excluir":
+			excluirTime(request, response);
 			break;
 
 		default:
