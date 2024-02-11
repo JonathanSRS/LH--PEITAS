@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import br.com.lhp.dao.BodyReader;
 import br.com.lhp.model.Imagem;
 import br.com.lhp.service.ImagemService;
 
 @WebServlet(urlPatterns = {"/cadastrarImagem", "/imagem"})
-public class ImagemController extends HttpServlet{
+public class ImagemController extends HttpServlet implements BodyReader{
 	private static final long serialVersionUID = 1L;
 	ImagemService service = new ImagemService();
 
@@ -25,14 +25,7 @@ public class ImagemController extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getContentType().equals("application/json")) {
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = new StringBuilder();
-			String linha;
-			
-			while((linha = data.readLine()) != null ){
-				obj.append(linha);
-			}
-			
-			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
+			JsonObject jsonTxt = ler(data);
 			
 			try {
 				Imagem img = new Imagem(jsonTxt.get("pasta").getAsString(), jsonTxt.get("link").getAsString());
@@ -60,14 +53,8 @@ public class ImagemController extends HttpServlet{
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		if(request.getContentType().equals("application/json")) {
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = new StringBuilder();
-			String linha;
+			JsonObject jsonTxt = ler(data);
 			
-			while((linha = data.readLine()) != null ){
-				obj.append(linha);
-			}
-			
-			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			int id = jsonTxt.get("id_imagem").getAsInt();
 			int result = service.excluirImagem(id);
 			

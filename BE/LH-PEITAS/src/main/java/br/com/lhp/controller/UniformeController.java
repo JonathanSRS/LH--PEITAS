@@ -75,9 +75,8 @@ public class UniformeController extends HttpServlet implements BodyReader{
 	protected void cadastrarUniforme(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getContentType().equals("application/json")) {
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = (StringBuilder) ler(data);
+			JsonObject jsonTxt = ler(data);
 			
-			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			try {
 				String nome = jsonTxt.get("nome").getAsString();
 				String cor = jsonTxt.get("cor").getAsString();
@@ -124,18 +123,22 @@ public class UniformeController extends HttpServlet implements BodyReader{
 	protected void excluirUniforme(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		if(request.getContentType().equals("application/json")) {
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = (StringBuilder) ler(data);
-			
-			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
-			int id = jsonTxt.get("id_uniforme").getAsInt();
-			
-			int result = service.excluir(id);
-			if(result == 0) {
+			JsonObject jsonTxt =  ler(data);
+			try {
+				int id = jsonTxt.get("id_uniforme").getAsInt();
+				int result = service.excluir(id);
+				
+				if(result == 0) {
+					response.setStatus(400);
+					response.getWriter().print("Erro");
+				}else {
+					response.setStatus(200);
+					response.getWriter().print("Sucesso");
+				}
+				
+			}catch(NullPointerException e) {
 				response.setStatus(400);
 				response.getWriter().print("Erro");
-			}else {
-				response.setStatus(200);
-				response.getWriter().print("Sucesso");
 			}
 			
 		}else {
@@ -147,22 +150,25 @@ public class UniformeController extends HttpServlet implements BodyReader{
 	protected void atualizarInfo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		if(request.getContentType().equals("application/json")) {
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = (StringBuilder) ler(data);
-			
-			
-			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
-			int id = jsonTxt.get("cod_camisa").getAsInt();
-			String descricao = jsonTxt.get("informativo").getAsString();
-			
-			int result = service.atualizarInformativo(id, descricao);
-			
-			if(result == 0) {
+			JsonObject jsonTxt =  ler(data);
+			try {
+				int id = jsonTxt.get("cod_camisa").getAsInt();
+				String descricao = jsonTxt.get("informativo").getAsString();
+				int result = service.atualizarInformativo(id, descricao);
+				
+				if(result == 0) {
+					response.setStatus(400);
+					response.getWriter().print("Erro");
+				}else {
+					response.setStatus(200);
+					response.getWriter().print("Sucesso");
+				}
+				
+			}catch(NullPointerException e) {
 				response.setStatus(400);
 				response.getWriter().print("Erro");
-			}else {
-				response.setStatus(200);
-				response.getWriter().print("Sucesso");
 			}
+			
 			
 		}else {
 			response.setStatus(406);

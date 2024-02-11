@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import br.com.lhp.dao.BodyReader;
 import br.com.lhp.model.Time;
 import br.com.lhp.service.TimeService;
 
 @WebServlet(urlPatterns = {"/listarTimes", "/base", "/postTime", "/buscarTime", "/excluir"})
-public class TimeController extends HttpServlet {
+public class TimeController extends HttpServlet implements BodyReader{
 	private static final long serialVersionUID = 1L;
 	TimeService service = new TimeService();
 	
@@ -85,14 +86,9 @@ public class TimeController extends HttpServlet {
 	
 	protected void base(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		BufferedReader  data =  request.getReader();
-		StringBuilder obj = new StringBuilder();
-		String linha;
 		ArrayList<Object> base = new ArrayList<>();
-		while((linha = data.readLine()) != null ){
-			obj.append(linha);
-		}
+		JsonObject jsonTxt = (JsonObject) ler(data);
 		
-		JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 		String time = jsonTxt.get("time").getAsString();
 		
 		response.setContentType("application/json");
@@ -133,32 +129,31 @@ public class TimeController extends HttpServlet {
 	}
 	
 	protected void criarTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-		BufferedReader  data =  request.getReader();
-		StringBuilder obj = new StringBuilder();
-		String linha;
-		while((linha = data.readLine()) != null ){
-			obj.append(linha);
+		if(request.getContentType().equals("application/json")) {
+			BufferedReader  data =  request.getReader();
+			JsonObject jsonTxt = (JsonObject) ler(data);
+			try {
+				String nome = jsonTxt.get("nome").getAsString();
+				String pais = jsonTxt.get("pais").getAsString();
+				String liga = jsonTxt.get("liga").getAsString();
+				
+				Time time = new Time(nome, pais, liga);
+				service.cadastrarTime(time);
+				response.setStatus(201);
+				response.getWriter().print("Sucesso");
+				
+			}catch(NullPointerException e) {
+				response.setStatus(400);
+				response.getWriter().print(e.getMessage());
+			}
 		}
-		JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
-		String nome = jsonTxt.get("nome").getAsString();
-		String pais = jsonTxt.get("pais").getAsString();
-		String liga = jsonTxt.get("liga").getAsString();
-		Time time = new Time(nome, pais, liga);
-		
-		service.cadastrarTime(time);
-		response.setStatus(201);
-		response.getWriter().print("Sucesso");
 	}
 	
 	protected void excluirTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
 		if(request.getContentType().equals("application/json")) {
 			BufferedReader  data =  request.getReader();
-			StringBuilder obj = new StringBuilder();
-			String linha;
-			while((linha = data.readLine()) != null ){
-				obj.append(linha);
-			}
-			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
+			JsonObject jsonTxt = (JsonObject) ler(data);
+			
 			int id = jsonTxt.get("id_time").getAsInt();
 			
 			int result = service.excluirTime(id);
