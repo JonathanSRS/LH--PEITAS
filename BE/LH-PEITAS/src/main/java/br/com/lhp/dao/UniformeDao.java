@@ -76,18 +76,18 @@ public class UniformeDao {
 	}
 
 
-	public void atualizar(int cod, String informativo) {
+	public int atualizar(int cod, String informativo) {
 		String sql = "UPDATE T_LHP_CAMISA SET ds_informativo = ? WHERE cd_camisa = ?";
+		int retorno = 0;
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 
 			preparedStatement.setString(1, informativo);
 			preparedStatement.setInt(2, cod);
 
-			preparedStatement.execute();
+			retorno = preparedStatement.executeUpdate();
 			preparedStatement.close();
-//			conn.commit();
-//			conn.close();
+
 		}catch(SQLException e) {
 			try {
                 conn.rollback();
@@ -96,6 +96,7 @@ public class UniformeDao {
             }
 			throw new RuntimeException(e);
 		}
+		return retorno;
 	}
 
 	public Set<Uniforme> listar(){

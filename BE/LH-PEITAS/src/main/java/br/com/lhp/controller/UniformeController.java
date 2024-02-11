@@ -72,26 +72,40 @@ public class UniformeController extends HttpServlet{
 	
 	
 	protected void cadastrarUniforme(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		BufferedReader  data =  request.getReader();
-		StringBuilder obj = new StringBuilder();
-		String linha;
-		while((linha = data.readLine()) != null ){
-			obj.append(linha);
-			System.out.println(linha);
+		if(request.getContentType().equals("application/json")) {
+			
+			BufferedReader  data =  request.getReader();
+			StringBuilder obj = new StringBuilder();
+			String linha;
+			while((linha = data.readLine()) != null ){
+				obj.append(linha);
+				System.out.println(linha);
+			}
+			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
+			try {
+				String nome = jsonTxt.get("nome").getAsString();
+				String cor = jsonTxt.get("cor").getAsString();
+				String temporada = jsonTxt.get("temporada").getAsString();
+				String time = jsonTxt.get("time").getAsString();
+				try {
+					Uniforme uniforme = new Uniforme(nome, temporada ,cor);
+					service.cadastrarUniforme(uniforme, time);
+					response.setStatus(201);
+					response.getWriter().print("Sucesso");
+					
+				}catch(RuntimeException e) {
+					response.setStatus(500);
+					response.getWriter().print("Problemas internos por favor contante o administrador do serviço");;
+				}
+				
+			}catch(NullPointerException e) {
+				response.setStatus(400);
+				response.getWriter().print(e.getMessage());
+			}
+		}else {
+			response.setStatus(406);
+			response.getWriter().print("Content-type Invalido");
 		}
-		JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
-		String nome = jsonTxt.get("nome").getAsString();
-		
-		String cor = jsonTxt.get("cor").getAsString();
-		String temporada = jsonTxt.get("temporada").getAsString();
-		String time = jsonTxt.get("time").getAsString();
-		
-//		byte[] byteString = time.getBytes("UTF-8");
-//		time = new String(byteString, "UTF-8");
-		
-		Uniforme uniforme = new Uniforme(nome, temporada ,cor);
-		System.out.println(time);
-		service.cadastrarUniforme(uniforme, time);
 	}
 	
 	protected void listarUniformes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -101,9 +115,14 @@ public class UniformeController extends HttpServlet{
 		forEach((k) -> {
 			list.add(k);
 		});
-		Gson gson = new Gson();
-		String jsonTxt = gson.toJson(list);
-		response.getWriter().print(jsonTxt);
+		if(list.isEmpty()) {
+			response.setStatus(404);
+			response.getWriter().print("Not Found");
+		}else {
+			Gson gson = new Gson();
+			String jsonTxt = gson.toJson(list);
+			response.getWriter().print(jsonTxt);
+		}
 	}
 	
 	protected void excluirUniforme(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
@@ -111,14 +130,22 @@ public class UniformeController extends HttpServlet{
 			BufferedReader  data =  request.getReader();
 			StringBuilder obj = new StringBuilder();
 			String linha;
+			
 			while((linha = data.readLine()) != null ){
 				obj.append(linha);
-				System.out.println(linha);
 			}
+			
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			int id = jsonTxt.get("id_uniforme").getAsInt();
 			
-			service.excluir(id);
+			int result = service.excluir(id);
+			if(result == 0) {
+				response.setStatus(400);
+				response.getWriter().print("Erro");
+			}else {
+				response.setStatus(200);
+				response.getWriter().print("Sucesso");
+			}
 			
 		}else {
 			response.setStatus(406);
@@ -131,15 +158,24 @@ public class UniformeController extends HttpServlet{
 			BufferedReader  data =  request.getReader();
 			StringBuilder obj = new StringBuilder();
 			String linha;
+			
 			while((linha = data.readLine()) != null ){
 				obj.append(linha);
-				System.out.println(linha);
 			}
+			
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			int id = jsonTxt.get("cod_camisa").getAsInt();
 			String descricao = jsonTxt.get("informativo").getAsString();
 			
-			service.atualizarInformativo(id, descricao);
+			int result = service.atualizarInformativo(id, descricao);
+			
+			if(result == 0) {
+				response.setStatus(400);
+				response.getWriter().print("Erro");
+			}else {
+				response.setStatus(200);
+				response.getWriter().print("Sucesso");
+			}
 			
 		}else {
 			response.setStatus(406);

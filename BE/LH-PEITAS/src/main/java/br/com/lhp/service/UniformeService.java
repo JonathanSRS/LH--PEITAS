@@ -19,9 +19,9 @@ public class UniformeService {
 		new UniformeDao(conn).armazenar(uniforme, time);
 	}
 
-	public void atualizarInformativo(int cod, String informativo) {
+	public int atualizarInformativo(int cod, String informativo) {
 		Connection conn = connection.recuperarConexao();
-		new UniformeDao(conn).atualizar(cod, informativo);
+		return new UniformeDao(conn).atualizar(cod, informativo);
 	}
 	
 	public Set<Uniforme> listarUniforme() {

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import br.com.lhp.model.Time;
 import br.com.lhp.model.Uniforme;
 
 class UniformeDaoTest {
@@ -25,15 +26,17 @@ class UniformeDaoTest {
 		this.conn.close();
 	}
 
-//	@Test
-//	void testAtualizarUniforme() {
+	@Test
+	void testAtualizarUniforme() {
 //		Uniforme testeSaopaulo = new Uniforme("primeiro uniforme", "2024", "Branco");
 //		new UniformeDao(conn).armazenar(testeSaopaulo, "são paulo");
-//		new UniformeDao(conn).atualizar(new TimeDao(conn).buscar("são paulo"), "new balance");
-//		Assert.assertNotEquals(0, new UniformeDao(conn).buscar("new balance"));
-//		System.out.println("Atualizar Informativo");
-//	}
-//
+		ArrayList<Time> time = new ArrayList<Time>(new TimeDao(conn).likeTime("são paulo"));
+		
+		;
+		Assert.assertNotEquals(1, new UniformeDao(conn).atualizar(time.get(0).getId(), "new balance"));
+		System.out.println("Atualizar Informativo");
+	}
+
 	@Test
 	void testCadastrarUniforme() {
 		Uniforme uniforme = new Uniforme("made in cotia", "2024","vermelho");
