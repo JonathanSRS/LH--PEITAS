@@ -17,9 +17,8 @@ public interface BodyReader {
 			}
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			return jsonTxt;			
-		}catch(RuntimeException e) {
-			
+		}catch(NullPointerException e) {
+			throw new NullPointerException();
 		}
-		return null;
 	}
 }

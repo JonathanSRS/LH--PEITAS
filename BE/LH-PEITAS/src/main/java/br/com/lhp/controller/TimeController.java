@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import br.com.lhp.dao.BodyReader;
+import br.com.lhp.exception.ValorNaoExiste;
 import br.com.lhp.model.Time;
 import br.com.lhp.service.TimeService;
 
@@ -172,13 +173,9 @@ public class TimeController extends HttpServlet implements BodyReader{
 				int id = jsonTxt.get("id_time").getAsInt();
 				
 				int result = service.excluirTime(id);
-				if(result == 1) {
-					response.setStatus(201);
-					response.getWriter().print("Sucesso");
-				}else {
-					response.setStatus(400);
-					response.getWriter().print("Erro");
-				}
+				if(result == 0) throw new ValorNaoExiste();
+				response.setStatus(201);
+				response.getWriter().print("Sucesso");
 				
 			}catch(NullPointerException e) {
 				response.setStatus(400);

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
 import br.com.lhp.dao.BodyReader;
+import br.com.lhp.exception.ValorNaoExiste;
 import br.com.lhp.model.Imagem;
 import br.com.lhp.service.ImagemService;
 
@@ -54,20 +55,15 @@ public class ImagemController extends HttpServlet implements BodyReader{
 			try {
 				BufferedReader  data =  request.getReader();
 				JsonObject jsonTxt = ler(data);
-				
 				int id = jsonTxt.get("id_imagem").getAsInt();
 				int result = service.excluirImagem(id);
+				if(result == 0) throw new ValorNaoExiste();
 				
-				if(result == 0) {
-					response.setStatus(400);
-					response.getWriter().print("Erro");
-				}else {
-					response.setStatus(200);
-					response.getWriter().print("Sucesso");
-				}
-			}catch(NullPointerException e) {
+				response.setStatus(200);
+				response.getWriter().print("Sucesso");
+			}catch(NullPointerException e ) {
 				response.setStatus(400);
-				response.getWriter().print("Erro");
+				response.getWriter().print("Erro "+ e.getMessage());
 			}
 			
 		}else {

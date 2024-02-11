@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import br.com.lhp.dao.BodyReader;
+import br.com.lhp.exception.ValorNaoExiste;
 import br.com.lhp.model.Uniforme;
 import br.com.lhp.service.UniformeService;
 
@@ -120,33 +121,6 @@ public class UniformeController extends HttpServlet implements BodyReader{
 		}
 	}
 	
-	protected void excluirUniforme(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-		if(request.getContentType() != null && request.getContentType() != null && request.getContentType().contains("application/json")) {
-			try {
-				BufferedReader  data =  request.getReader();
-				JsonObject jsonTxt =  ler(data);
-				int id = jsonTxt.get("id_uniforme").getAsInt();
-				int result = service.excluir(id);
-				
-				if(result == 0) {
-					response.setStatus(400);
-					response.getWriter().print("Erro");
-				}else {
-					response.setStatus(200);
-					response.getWriter().print("Sucesso");
-				}
-				
-			}catch(NullPointerException e) {
-				response.setStatus(400);
-				response.getWriter().print("Erro");
-			}
-			
-		}else {
-			response.setStatus(406);
-			response.getWriter().print("Content-type Invalido");
-		}
-	}
-	
 	protected void atualizarInfo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		if(request.getContentType() != null && request.getContentType().contains("application/json")) {
 			try {
@@ -156,19 +130,38 @@ public class UniformeController extends HttpServlet implements BodyReader{
 				String descricao = jsonTxt.get("informativo").getAsString();
 				int result = service.atualizarInformativo(id, descricao);
 				
-				if(result == 0) {
-					response.setStatus(400);
-					response.getWriter().print("Erro");
-				}else {
-					response.setStatus(200);
-					response.getWriter().print("Sucesso");
-				}
+				if(result == 0) throw new ValorNaoExiste();
+				response.setStatus(200);
+				response.getWriter().print("Sucesso");
 				
 			}catch(NullPointerException e) {
 				response.setStatus(400);
 				response.getWriter().print("Erro");
 			}
 			
+			
+		}else {
+			response.setStatus(406);
+			response.getWriter().print("Content-type Invalido");
+		}
+	}
+	
+	protected void excluirUniforme(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+		if(request.getContentType() != null && request.getContentType() != null && request.getContentType().contains("application/json")) {
+			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt =  ler(data);
+				int id = jsonTxt.get("id_uniforme").getAsInt();
+				int result = service.excluir(id);
+				
+				if(result == 0) throw new ValorNaoExiste();
+				response.setStatus(200);
+				response.getWriter().print("Sucesso");
+				
+			}catch(NullPointerException e) {
+				response.setStatus(400);
+				response.getWriter().print("Erro");
+			}
 			
 		}else {
 			response.setStatus(406);
