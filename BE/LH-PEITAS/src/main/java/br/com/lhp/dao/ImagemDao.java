@@ -34,7 +34,6 @@ public class ImagemDao {
 //			preparedStatement.setString(3, imagem.getPasta());
 			preparedStatement.execute();
 			preparedStatement.close();
-//			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -42,14 +41,15 @@ public class ImagemDao {
 
 	public int delete(int cod) {
 		String sql = "DELETE FROM T_LHP_IMAGEM where cd_imagem = ?";
-		int retorno = 1;
+		int retorno = 0;
+		
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setInt(1, cod);
 
 			retorno = preparedStatement.executeUpdate();
 			preparedStatement.close();
-//			conn.close();
+			conn.close();
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}

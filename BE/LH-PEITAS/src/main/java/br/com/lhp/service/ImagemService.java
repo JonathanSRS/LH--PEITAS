@@ -24,14 +24,9 @@ public class ImagemService {
 		}
 	}
 
-	public void excluirImagem(int cod){
-		try {
+	public int excluirImagem(int cod){
 			Connection conn = connection.recuperarConexao();
-			new ImagemDao(conn).delete(cod);
-			conn.close();
-		}catch(SQLException e) {
-			throw new RuntimeException(e);
-		}
+			return new ImagemDao(conn).delete(cod);
 	}
 
 }

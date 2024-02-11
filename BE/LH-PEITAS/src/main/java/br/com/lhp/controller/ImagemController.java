@@ -30,7 +30,6 @@ public class ImagemController extends HttpServlet{
 			
 			while((linha = data.readLine()) != null ){
 				obj.append(linha);
-				System.out.println(linha);
 			}
 			
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
@@ -39,7 +38,7 @@ public class ImagemController extends HttpServlet{
 				Imagem img = new Imagem(jsonTxt.get("pasta").getAsString(), jsonTxt.get("link").getAsString());
 				try {
 					service.cadastrarImagem(img, Integer.parseInt(jsonTxt.get("cod").getAsString()));
-					response.setStatus(200);
+					response.setStatus(201);
 					response.getWriter().print("Sucesso");
 				}catch(RuntimeException e) {
 					response.setStatus(500);
@@ -48,7 +47,7 @@ public class ImagemController extends HttpServlet{
 				}
 			}catch(NullPointerException e) {
 				response.setStatus(404);
-//				response.getWriter().print("");
+				response.getWriter().print("Not found");
 			}
 			
 		}else {
@@ -63,14 +62,22 @@ public class ImagemController extends HttpServlet{
 			BufferedReader  data =  request.getReader();
 			StringBuilder obj = new StringBuilder();
 			String linha;
+			
 			while((linha = data.readLine()) != null ){
 				obj.append(linha);
-				System.out.println(linha);
 			}
+			
 			JsonObject jsonTxt = new Gson().fromJson(obj.toString(), JsonObject.class);
 			int id = jsonTxt.get("id_imagem").getAsInt();
+			int result = service.excluirImagem(id);
 			
-			service.excluirImagem(id);
+			if(result == 0) {
+				response.setStatus(400);
+				response.getWriter().print("Erro");
+			}else {
+				response.setStatus(200);
+				response.getWriter().print("Sucesso");
+			}
 			
 			
 		}else {
