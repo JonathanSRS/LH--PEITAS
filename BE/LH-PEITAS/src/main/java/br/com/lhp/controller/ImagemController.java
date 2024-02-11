@@ -23,11 +23,10 @@ public class ImagemController extends HttpServlet implements BodyReader{
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getContentType().equals("application/json")) {
-			BufferedReader  data =  request.getReader();
-			JsonObject jsonTxt = ler(data);
-			
+		if(request.getContentType() != null && request.getContentType().contains("application/json")) {
 			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt = ler(data);
 				Imagem img = new Imagem(jsonTxt.get("pasta").getAsString(), jsonTxt.get("link").getAsString());
 				try {
 					service.cadastrarImagem(img, Integer.parseInt(jsonTxt.get("cod").getAsString()));
@@ -51,21 +50,25 @@ public class ImagemController extends HttpServlet implements BodyReader{
 	}
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		if(request.getContentType().equals("application/json")) {
-			BufferedReader  data =  request.getReader();
-			JsonObject jsonTxt = ler(data);
-			
-			int id = jsonTxt.get("id_imagem").getAsInt();
-			int result = service.excluirImagem(id);
-			
-			if(result == 0) {
+		if(request.getContentType() != null && request.getContentType().contains("application/json")) {
+			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt = ler(data);
+				
+				int id = jsonTxt.get("id_imagem").getAsInt();
+				int result = service.excluirImagem(id);
+				
+				if(result == 0) {
+					response.setStatus(400);
+					response.getWriter().print("Erro");
+				}else {
+					response.setStatus(200);
+					response.getWriter().print("Sucesso");
+				}
+			}catch(NullPointerException e) {
 				response.setStatus(400);
 				response.getWriter().print("Erro");
-			}else {
-				response.setStatus(200);
-				response.getWriter().print("Sucesso");
 			}
-			
 			
 		}else {
 			response.setStatus(406);

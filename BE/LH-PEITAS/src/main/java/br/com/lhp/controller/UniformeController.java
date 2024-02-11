@@ -73,11 +73,11 @@ public class UniformeController extends HttpServlet implements BodyReader{
 	
 	
 	protected void cadastrarUniforme(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getContentType().equals("application/json")) {
-			BufferedReader  data =  request.getReader();
-			JsonObject jsonTxt = ler(data);
+		if(request.getContentType() != null &&  request.getContentType().contains("application/json")) {
 			
 			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt = ler(data);
 				String nome = jsonTxt.get("nome").getAsString();
 				String cor = jsonTxt.get("cor").getAsString();
 				String temporada = jsonTxt.get("temporada").getAsString();
@@ -121,10 +121,10 @@ public class UniformeController extends HttpServlet implements BodyReader{
 	}
 	
 	protected void excluirUniforme(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-		if(request.getContentType().equals("application/json")) {
-			BufferedReader  data =  request.getReader();
-			JsonObject jsonTxt =  ler(data);
+		if(request.getContentType() != null && request.getContentType() != null && request.getContentType().contains("application/json")) {
 			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt =  ler(data);
 				int id = jsonTxt.get("id_uniforme").getAsInt();
 				int result = service.excluir(id);
 				
@@ -148,10 +148,10 @@ public class UniformeController extends HttpServlet implements BodyReader{
 	}
 	
 	protected void atualizarInfo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-		if(request.getContentType().equals("application/json")) {
-			BufferedReader  data =  request.getReader();
-			JsonObject jsonTxt =  ler(data);
+		if(request.getContentType() != null && request.getContentType().contains("application/json")) {
 			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt =  ler(data);
 				int id = jsonTxt.get("cod_camisa").getAsInt();
 				String descricao = jsonTxt.get("informativo").getAsString();
 				int result = service.atualizarInformativo(id, descricao);

@@ -85,26 +85,37 @@ public class TimeController extends HttpServlet implements BodyReader{
 	}
 	
 	protected void base(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-		BufferedReader  data =  request.getReader();
-		ArrayList<Object> base = new ArrayList<>();
-		JsonObject jsonTxt = (JsonObject) ler(data);
-		
-		String time = jsonTxt.get("time").getAsString();
-		
-		response.setContentType("application/json");
-		
-		service.BaseDeTimes(time).stream()
-		.forEach((k) -> {
-			base.add(k);
-		});
-		
-		if(base.isEmpty()) {
-			response.setStatus(404);
-			response.getWriter().print("Not found");
+		if(request.getContentType() != null && request.getContentType().contains("application/json")) {
+			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt = (JsonObject) ler(data);
+				ArrayList<Object> base = new ArrayList<>();
+				
+				String time = jsonTxt.get("time").getAsString();
+				
+				response.setContentType("application/json");
+				
+				service.BaseDeTimes(time).stream()
+				.forEach((k) -> {
+					base.add(k);
+				});
+				
+				if(base.isEmpty()) {
+					response.setStatus(404);
+					response.getWriter().print("Not found");
+				}else {
+					Gson gson = new Gson();
+					String resp = gson.toJson(base);
+					response.getWriter().print(resp);
+				}
+				
+			}catch(NullPointerException e) {
+				response.setStatus(400);
+				response.getWriter().print("Erro");
+			}
 		}else {
-			Gson gson = new Gson();
-			String resp = gson.toJson(base);
-			response.getWriter().print(resp);
+			response.setStatus(406);
+			response.getWriter().print("Content-type Invalido");
 		}
 		
 	}
@@ -129,10 +140,10 @@ public class TimeController extends HttpServlet implements BodyReader{
 	}
 	
 	protected void criarTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-		if(request.getContentType().equals("application/json")) {
-			BufferedReader  data =  request.getReader();
-			JsonObject jsonTxt = (JsonObject) ler(data);
+		if(request.getContentType() != null && request.getContentType().contains("application/json")) {
 			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt = (JsonObject) ler(data);
 				String nome = jsonTxt.get("nome").getAsString();
 				String pais = jsonTxt.get("pais").getAsString();
 				String liga = jsonTxt.get("liga").getAsString();
@@ -146,24 +157,32 @@ public class TimeController extends HttpServlet implements BodyReader{
 				response.setStatus(400);
 				response.getWriter().print(e.getMessage());
 			}
+		}else {
+			response.setStatus(406);
+			response.getWriter().print("Content-type Invalido");
 		}
 	}
 	
 	protected void excluirTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
-		if(request.getContentType().equals("application/json")) {
-			BufferedReader  data =  request.getReader();
-			JsonObject jsonTxt = (JsonObject) ler(data);
-			
-			int id = jsonTxt.get("id_time").getAsInt();
-			
-			int result = service.excluirTime(id);
-			if(result == 1) {
-				response.setStatus(201);
-				response.getWriter().print("Sucesso");
-			}else {
+		if(request.getContentType() != null && request.getContentType().contains("application/json")) {
+			try {
+				BufferedReader  data =  request.getReader();
+				JsonObject jsonTxt = (JsonObject) ler(data);
+				
+				int id = jsonTxt.get("id_time").getAsInt();
+				
+				int result = service.excluirTime(id);
+				if(result == 1) {
+					response.setStatus(201);
+					response.getWriter().print("Sucesso");
+				}else {
+					response.setStatus(400);
+					response.getWriter().print("Erro");
+				}
+				
+			}catch(NullPointerException e) {
 				response.setStatus(400);
 				response.getWriter().print("Erro");
-				
 			}
 			
 		}else {
