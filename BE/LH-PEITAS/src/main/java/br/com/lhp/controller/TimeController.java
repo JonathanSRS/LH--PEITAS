@@ -29,9 +29,6 @@ public class TimeController extends HttpServlet implements BodyReader{
 		case "/listarTimes":
 			lista(request, response);			
 			break;
-		case "/base":
-			base(request, response);
-			break;
 		case "/buscarTime":
 			buscarTime(request, response);
 			break;
@@ -42,8 +39,15 @@ public class TimeController extends HttpServlet implements BodyReader{
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+		response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        response.setHeader("Access-Control-Max-Age", "3600");
 		String acao = request.getServletPath();
 		switch (acao) {
+		case "/base":
+			base(request, response);
+			break;
 		case "/postTime":
 			criarTime(request, response);			
 			break;
@@ -95,7 +99,7 @@ public class TimeController extends HttpServlet implements BodyReader{
 				String time = jsonTxt.get("time").getAsString();
 				
 				response.setContentType("application/json");
-				
+				response.setCharacterEncoding("utf-8");
 				service.BaseDeTimes(time).stream()
 				.forEach((k) -> {
 					base.add(k);
