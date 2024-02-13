@@ -1,10 +1,10 @@
 Esse repositório contém: 
-Documentos do projeto na Branch document
-Banco: Schema para criação das tabelas e primeira inclusão de dados ao banco
-BE: Aplicação
+<br>Documentos do projeto na Branch document
+<br>Banco: Schema para criação das tabelas e primeira inclusão de dados ao banco
+<br>BE: Aplicação
 
-Integração com banco
-Criar a pasta .properties com arquivo config.properties dentro diretorio do projeto
+<br>Integração com banco
+<br>Criar a pasta .properties com arquivo config.properties dentro diretorio do projeto
 Esse arquivo deve conter as informações para conexão com banco de dados
 <br>Banco = 
 <br>Host =<br>
@@ -13,8 +13,8 @@ Login = <br>
 Senha = <br>
 Sid = <br>
 
-Integrar Server 
-No arquivo Context.xml adicionar os valores para conexeção com banco  
+<br>Integrar Server 
+<br>No arquivo Context.xml adicionar os valores para conexeção com banco  
 <br>
 -<
 - Resource name="jdbc/nameRep" auth="Container" type="javax.sql.DataSource"
