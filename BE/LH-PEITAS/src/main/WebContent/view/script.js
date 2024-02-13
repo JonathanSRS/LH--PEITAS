@@ -7,6 +7,36 @@ class uniformes{
     }
 }
 
+function getService(URL){
+        let options = {
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json;charset=utf-8"
+                }
+            };
+
+        return fetch(`${URL}`,options)
+        .then((resp) => resp.json())
+        .then((data) => (data))
+        .catch(e =>
+            console.log(e.message))
+}
+
+function listar(endpoint){
+    let result = [];
+    Promise.resolve(getService(`http://localhost:8088/LH-PEITAS/${endpoint}`))
+        .then(
+            data => {data.forEach(
+                element => {
+                    result.push(element)
+                })
+            }
+        )
+    return result;
+}
+
 function request(URL, options){
     fetch(`${URL}`,options)
     .then(resp =>resp.json())
@@ -24,16 +54,19 @@ const options = {
     headers: {
         "Accept": "application/json",
         "Content-Type": "application/json;charset=utf-8"
-    },
+        },
     body: JSON.stringify({time:''})
     };
-
-
+    
 request('http://localhost:8088/LH-PEITAS/base', options);
+
+console.log(listar("/listarTimes/ligas"))
+console.log(listar("/listUniformes/cores"))
 
 function criarCard(array){
     array.forEach(element => {
-        // clubes = new uniformes(element);
+        // clubes = new uniformes(element.nome, element.link, element.temporada, element.uniforme);
+        // console.log(clubes);
         let idList = document.querySelector('#list');
         let card = document.createElement('div');
         let equipeDiv = document.createElement('div');
@@ -61,6 +94,7 @@ function criarCard(array){
         skeleton();
     });
 }
+// Skeleton
 const allSkeleton = document.querySelectorAll('.skeleton');
 	window.addEventListener('load', ()=>{
 		allSkeleton.forEach(item=>{
@@ -81,6 +115,7 @@ filtro.addEventListener("click", ()=>{
 
     }
 })
+// 
 
 const navSearch = document.querySelector('#nav-search');
 navSearch.addEventListener('input' , (e)=>{
