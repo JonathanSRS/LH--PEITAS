@@ -94,6 +94,27 @@ public class TimeDao {
 
 		return times;
 	}
+	public Set<Object> listarLiga(){
+		String sql = "SELECT DISTINCT ds_liga FROM T_LHP_TIME";
+		Set<Object> ligas = new HashSet<>();
+		
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				String liga = resultSet.getString(1);
+				ligas.add(liga);
+			}
+			resultSet.close();
+			preparedStatement.close();
+			conn.close();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+		return ligas;
+	}
 
 	public Set<Base> innerJoin(String nome){
 		Set<Base> list = new HashSet<>();

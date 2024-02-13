@@ -68,5 +68,15 @@ class TimeDaoTest {
 		System.out.println(base);
 		Assert.assertTrue(base.size()>0);
 	}
-
+	
+	@Test
+	void testListarLigas() {
+		ArrayList<String> ligas = new ArrayList<>();
+		new TimeDao(conn).listarLiga().stream()
+		.forEach((k)->{
+			ligas.add(k.toString());
+		});
+		System.out.println(ligas);
+		Assert.assertNotNull(ligas);
+	}
 }
