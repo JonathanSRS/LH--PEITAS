@@ -16,9 +16,11 @@ Sid = <br>
 Integrar Server 
 No arquivo Context.xml adicionar os valores para conexeção com banco  
 <br>
--<Resource name="jdbc/nameRep" auth="Container" type="javax.sql.DataSource"
+-<
+-Resource name="jdbc/nameRep" auth="Container" type="javax.sql.DataSource"
 -              maxActive="100" maxIdle="30" maxWait="10000"
 -              username="login" password="senha" driverClassName="driver"
--             url="jdbc:oracle:thin:@localhost:porta:sid"/>
+-             url="jdbc:oracle:thin:@localhost:porta:sid"
+-/>
 
 A pasta WebContent contém as primeiras telas projeto
