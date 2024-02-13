@@ -79,9 +79,10 @@ DELETE FROM T_LHP_TIME where CD_TIME IN (21,41);
 SELECT * FROM T_LHP_IMAGEM;
 SELECT * FROM  T_LHP_CAMISA;
 SELECT * FROM  T_LHP_TIME ORDER BY nm_time ASC;
-
 SELECT * FROM T_LHP_TIME WHERE nm_time LIKE '%coritiba%';
-
+SELECT DISTINCT ds_liga from t_lhp_time;
+SELECT DISTINCT ds_cor from t_lhp_camisa;
+SELECT dt_ano from t_lhp_camisa;
 SELECT 
     t.cd_time AS "Identificação"
     ,t.nm_time AS "Nome do Time"
@@ -91,4 +92,4 @@ SELECT
 FROM T_LHP_TIME t
     INNER JOIN T_LHP_CAMISA c ON t.cd_time = c.cd_time
     INNER JOIN T_LHP_IMAGEM i ON c.cd_camisa = i.cd_camisa
-WHERE t.nm_time LIKE '%%'; 
+WHERE t.nm_time LIKE '%%' AND t.ds_liga like'%la liga%' AND c.ds_cor like '%%'; 
