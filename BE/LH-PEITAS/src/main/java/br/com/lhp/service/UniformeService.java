@@ -29,6 +29,11 @@ public class UniformeService {
 		return new UniformeDao(conn).listar(); 
 	}
 	
+	public Set<Object> listarCores() {
+		Connection conn = connection.recuperarConexao();
+		return new UniformeDao(conn).listarPorCor(); 
+	}
+	
 	public int excluir(int id) {
 		Connection conn = connection.recuperarConexao();
 		return new UniformeDao(conn).delete(id);

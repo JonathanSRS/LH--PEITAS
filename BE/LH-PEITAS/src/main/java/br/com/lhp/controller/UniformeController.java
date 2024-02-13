@@ -18,7 +18,7 @@ import br.com.lhp.exception.ValorNaoExiste;
 import br.com.lhp.model.Uniforme;
 import br.com.lhp.service.UniformeService;
 
-@WebServlet(urlPatterns = {"/postUniforme", "/updateInfo", "/delUniforme", "/listUniformes"})
+@WebServlet(urlPatterns = {"/postUniforme", "/updateInfo", "/delUniforme", "/listUniformes", "/listUniformes/cores"})
 public class UniformeController extends HttpServlet implements BodyReader{
 	private static final long serialVersionUID = 1L;
 	
@@ -30,7 +30,9 @@ public class UniformeController extends HttpServlet implements BodyReader{
 		case "/listUniformes":
 			listarUniformes(request, response);
 			break;
-
+		case "/listUniformes/cores":
+			listarPorCor(request, response);
+			break;
 		default:
 			break;
 		}
@@ -110,6 +112,23 @@ public class UniformeController extends HttpServlet implements BodyReader{
 		service.listarUniforme().stream().
 		forEach((k) -> {
 			list.add(k);
+		});
+		if(list.isEmpty()) {
+			response.setStatus(404);
+			response.getWriter().print("Not Found");
+		}else {
+			Gson gson = new Gson();
+			String jsonTxt = gson.toJson(list);
+			response.getWriter().print(jsonTxt);
+		}
+	}
+	
+	protected void listarPorCor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		response.setContentType("application/json");
+		ArrayList<String> list = new ArrayList<>();
+		service.listarCores().stream().
+		forEach((k) -> {
+			list.add(k.toString());
 		});
 		if(list.isEmpty()) {
 			response.setStatus(404);
