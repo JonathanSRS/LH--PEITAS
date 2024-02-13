@@ -3,6 +3,7 @@ Esse repositório contém:
 <br>Banco: Schema para criação das tabelas e primeira inclusão de dados ao banco
 <br>BE: Aplicação
 
+<br> Realizar update na maven
 <br>Integração com banco
 <br>Criar a pasta .properties com arquivo config.properties dentro diretorio do projeto
 Esse arquivo deve conter as informações para conexão com banco de dados
@@ -13,7 +14,7 @@ Login = <br>
 Senha = <br>
 Sid = <br>
 
-<br>Integrar Server 
+<br>Para integrar Server 
 <br>No arquivo Context.xml adicionar os valores para conexeção com banco  
 <br>
 -<
@@ -23,4 +24,4 @@ Sid = <br>
 -             url="jdbc:oracle:thin:@localhost:porta:sid"
 -/>
 
-A pasta WebContent contém as primeiras telas projeto
+A pasta WebContent contém as primeiras telas do projeto
