@@ -1,19 +1,24 @@
 Esse repositório contém: 
-Digrama do banco
-Banco os dados para criação das tabelas e primeira inclusão de dados ao banco
+Documentos do projeto na Branch document
+Banco: Schema para criação das tabelas e primeira inclusão de dados ao banco
 BE: Aplicação
 
-Necessario criar a pasta .properties e o config.properties inclui-lo na pasta dentro do projeto
+Integração com banco
+Criar a pasta .properties com arquivo config.properties dentro diretorio do projeto
 Esse arquivo deve conter as informações para conexão com banco de dados
 <br>Banco = 
-<br>Host = <br>Porta = <br>
+<br>Host =<br>
+Porta = <br>
 Login = <br>
 Senha = <br>
 Sid = <br>
 
-Context.xml  <br>
+Integrar Server 
+No arquivo Context.xml adicionar os valores para conexeção com banco  
+<br>
+-<Resource name="jdbc/nameRep" auth="Container" type="javax.sql.DataSource"
+-              maxActive="100" maxIdle="30" maxWait="10000"
+-              username="login" password="senha" driverClassName="driver"
+-             url="jdbc:oracle:thin:@localhost:porta:sid"/>
 
-<Resource name="jdbc/nameRep" auth="Container" type="javax.sql.DataSource"
-              maxActive="100" maxIdle="30" maxWait="10000"
-              username="login" password="senha" driverClassName="driver"
-              url="jdbc:oracle:thin:@localhost:porta:sid"/>
+A pasta WebContent contém as primeiras telas projeto
