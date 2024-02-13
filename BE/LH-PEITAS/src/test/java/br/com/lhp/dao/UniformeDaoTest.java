@@ -56,4 +56,16 @@ class UniformeDaoTest {
 
 		Assert.assertEquals("1, segundo uniforme, 2024-05-01, away", listDeUniformes.get(0));
 	}
+	
+	@Test
+	void testBuscaPorCores() {
+		ArrayList<String> lista = new ArrayList<>();
+		new UniformeDao(conn).listarPorCor()
+		.stream().forEach( (k)-> {
+				lista.add(k.toString());
+		});
+		System.out.println(lista);
+		Assert.assertNotNull("Vazio", lista);
+	}
+	
 }

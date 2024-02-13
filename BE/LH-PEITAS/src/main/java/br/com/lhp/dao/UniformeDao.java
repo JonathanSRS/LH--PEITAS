@@ -127,6 +127,27 @@ public class UniformeDao {
 
 		return uniforme;
 	}
+	
+	public Set<Object> listarPorCor(){
+		String sql = "SELECT DISTINCT ds_cor FROM T_LHP_CAMISA WHERE ST_STATUS = 'A'";
+		Set<Object> cores = new HashSet<>();
+		
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				String cor = resultSet.getString(1);
+				cores.add(cor);
+			}
+			resultSet.close();
+			preparedStatement.close();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+		return cores;
+	}
 
 
 	public int delete(int cod) {
