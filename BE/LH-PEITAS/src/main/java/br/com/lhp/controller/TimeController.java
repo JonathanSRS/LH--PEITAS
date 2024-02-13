@@ -18,7 +18,7 @@ import br.com.lhp.exception.ValorNaoExiste;
 import br.com.lhp.model.Time;
 import br.com.lhp.service.TimeService;
 
-@WebServlet(urlPatterns = {"/listarTimes", "/base", "/postTime", "/buscarTime", "/excluir"})
+@WebServlet(urlPatterns = {"/listarTimes", "/base", "/postTime", "/buscarTime", "/excluir", "/listarTimes/ligas"})
 public class TimeController extends HttpServlet implements BodyReader{
 	private static final long serialVersionUID = 1L;
 	TimeService service = new TimeService();
@@ -28,6 +28,9 @@ public class TimeController extends HttpServlet implements BodyReader{
 		switch (acao) {
 		case "/listarTimes":
 			lista(request, response);			
+			break;
+		case "/listarTimes/ligas":
+			listaTodasLigas(request, response);			
 			break;
 		case "/buscarTime":
 			buscarTime(request, response);
@@ -139,6 +142,24 @@ public class TimeController extends HttpServlet implements BodyReader{
 		}else {
 			Gson gson = new Gson();
 			String resp = gson.toJson(times);
+			response.getWriter().print(resp);
+		}
+		
+	}
+	
+	protected void listaTodasLigas(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		response.setContentType("application/json");
+		ArrayList<Object> ligas = new ArrayList<>();
+		service.listarTodasLigas().stream()
+		.forEach((k) -> {
+			ligas.add(k);
+		});
+		if(ligas.isEmpty()) {
+			response.setStatus(404);
+			response.getWriter().print("Not found");
+		}else {
+			Gson gson = new Gson();
+			String resp = gson.toJson(ligas);
 			response.getWriter().print(resp);
 		}
 		

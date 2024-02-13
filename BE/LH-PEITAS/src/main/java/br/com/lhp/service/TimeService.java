@@ -43,6 +43,11 @@ public class TimeService {
 		return new TimeDao(conn).innerJoin(nome);
 	}
 	
+	public Set<Object> listarTodasLigas(){
+		Connection conn = connection.recuperarConexao();
+		return new TimeDao(conn).listarLiga();
+	}
+	
 	public int excluirTime(int id) {
 		Connection conn = connection.recuperarConexao();
 		return new TimeDao(conn).delete(id);
