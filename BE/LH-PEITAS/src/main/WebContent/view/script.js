@@ -8,7 +8,8 @@ class uniformes{
 }
 
 function getService(URL){
-        let options = {
+    let result = [];    
+    let options = {
             mode: 'cors',
             method: 'GET',
             headers: {
@@ -17,23 +18,15 @@ function getService(URL){
                 }
             };
 
-        return fetch(`${URL}`,options)
+    fetch(`${URL}`,options)
         .then((resp) => resp.json())
-        .then((data) => (data))
-        .catch(e =>
-            console.log(e.message))
-}
-
-function listar(endpoint){
-    let result = [];
-    Promise.resolve(getService(`http://localhost:8088/LH-PEITAS/${endpoint}`))
-        .then(
-            data => {data.forEach(
+        .then((data) => 
+            data.forEach(
                 element => {
                     result.push(element)
-                })
-            }
-        )
+                }))
+        .catch(e =>
+            console.log(e.message))
     return result;
 }
 
@@ -57,12 +50,15 @@ const options = {
         },
     body: JSON.stringify({time:''})
     };
-    
+
+//Inicializar 
 request('http://localhost:8088/LH-PEITAS/base', options);
 
-console.log(listar("/listarTimes/ligas"))
-console.log(listar("/listUniformes/cores"))
+// console.log(getService("http://localhost:8088/LH-PEITAS/listarTimes/ligas"))
+// console.log(getService("http://localhost:8088/LH-PEITAS/listUniformes/cores"))
+// console.log(getService("http://localhost:8088/LH-PEITAS/listUniformes"))
 
+// Criar
 function criarCard(array){
     array.forEach(element => {
         // clubes = new uniformes(element.nome, element.link, element.temporada, element.uniforme);
@@ -94,6 +90,8 @@ function criarCard(array){
         skeleton();
     });
 }
+// End Criar
+
 // Skeleton
 const allSkeleton = document.querySelectorAll('.skeleton');
 	window.addEventListener('load', ()=>{
@@ -101,6 +99,9 @@ const allSkeleton = document.querySelectorAll('.skeleton');
 			item.classList.remove('skeleton')
 		})
 	})
+// End Skeleton
+
+// Esconder list
 const filtro = document.getElementById('filtro-icon');
 filtro.addEventListener("click", ()=>{
     let list = document.querySelector('.filtro-list')
@@ -115,8 +116,9 @@ filtro.addEventListener("click", ()=>{
 
     }
 })
-// 
+//
 
+// Buscar por Time
 const navSearch = document.querySelector('#nav-search');
 navSearch.addEventListener('input' , (e)=>{
     let text = e.target.value;
@@ -137,3 +139,4 @@ navSearch.addEventListener('input' , (e)=>{
         };
     request('http://localhost:8088/LH-PEITAS/base', options);
 })
+//
