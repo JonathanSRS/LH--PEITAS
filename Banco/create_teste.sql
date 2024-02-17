@@ -68,9 +68,9 @@ INSERT INTO T_LHP_CAMISA(dt_ano, ds_informativo, nm_camisa, ds_cor, st_status) V
 INSERT INTO T_LHP_IMAGEM(cd_camisa, ds_conteudo) VALUES (1, 'https://images.tcdn.com.br/img/img_prod/1052037/camisa_al_nassr_away_2023_24_4295_1_d3658130c65d5c0b3e8f7891bd74d5c7.jpg');
 
 -- UPDATE
-UPDATE T_LHP_TIME  SET ds_liga = 'brasileirão serie a' WHERE cd_time IN (42,43);
+UPDATE T_LHP_TIME  SET ds_liga = 'brasileirão serie a' WHERE cd_time IN (281);
 UPDATE T_LHP_CAMISA SET cd_time = 1 WHERE cd_camisa = 1;
-
+UPDATE T_LHP_CAMISA SET ds_cor = 'navy' where ds_cor = 'azul marinho';
 -- DELETE
 DELETE FROM T_LHP_CAMISA where cd_camisa = 2;
 DELETE FROM T_LHP_TIME where CD_TIME IN (21,41);

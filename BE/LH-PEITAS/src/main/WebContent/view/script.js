@@ -54,13 +54,23 @@ function criarList(list, seletor){
     const filtroUl = document.querySelector(`${seletor}`);
     list.forEach(
         item =>{
-            let cor = document.createElement('li');
-            filtroUl.appendChild(cor).innerText = item;
-            console.log(item);
+            let li = document.createElement('li')
+            let span = document.createElement('span')
+            li.setAttribute('id', item.replace(" ",""));
+            filtroUl.appendChild(li)
+            li.appendChild(span).innerText = item;
+            if(seletor =="#filtro-listCor-ul"){
+                nomeCores(item)
+            }
         }
         )
         console.log("rodou function");
     }
+
+function nomeCores(item){
+    let li = document.getElementById(`${item}`);
+    li.style.backgroundColor = li.textContent;
+}
 
 function criarCard(array){
     array.forEach(element => {
@@ -152,7 +162,7 @@ filtroCor.addEventListener('click', ()=>{
         list.removeAttribute('hidden');
         list.setAttribute('hidden','true')
     }else{
-        list.setAttribute('style','display:block')
+        list.setAttribute('style','display:flex')
         list.removeAttribute('hidden');
         list.setAttribute('hidden','false')
         

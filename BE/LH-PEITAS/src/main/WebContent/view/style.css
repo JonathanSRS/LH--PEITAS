@@ -65,6 +65,20 @@ nav{
     justify-content: space-between;
 }
 
+#filtro-listCor-ul{
+    flex-wrap: wrap;
+}
+
+#filtro-listCor-ul li{
+    margin: 0 5px 8px 0;
+    width: 5px;
+    height:  10px;
+}
+
+#filtro-listCor-ul li span{
+    opacity: 0;
+}
+
 nav .filtro-list li{
     padding: 5px 10px;
     list-style: none;
