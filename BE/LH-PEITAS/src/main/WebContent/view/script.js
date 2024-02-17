@@ -7,8 +7,7 @@ class uniformes{
     }
 }
 
-function getService(URL){
-    let result = [];    
+function getService(URL, seletor){  
     let options = {
             mode: 'cors',
             method: 'GET',
@@ -20,14 +19,9 @@ function getService(URL){
 
     fetch(`${URL}`,options)
         .then((resp) => resp.json())
-        .then((data) => 
-            data.forEach(
-                element => {
-                    result.push(element)
-                }))
+        .then((data) => criarList(data,seletor))
         .catch(e =>
             console.log(e.message))
-    return result;
 }
 
 function request(URL, options){
@@ -50,15 +44,24 @@ const options = {
         },
     body: JSON.stringify({time:''})
     };
-
 //Inicializar 
 request('http://localhost:8088/LH-PEITAS/base', options);
-
-// console.log(getService("http://localhost:8088/LH-PEITAS/listarTimes/ligas"))
-// console.log(getService("http://localhost:8088/LH-PEITAS/listUniformes/cores"))
-// console.log(getService("http://localhost:8088/LH-PEITAS/listUniformes"))
+getService("http://localhost:8088/LH-PEITAS/listUniformes/cores", "#filtro-listCor-ul");
+getService("http://localhost:8088/LH-PEITAS/listarTimes/ligas", "#filtro-listLiga-ul");
 
 // Criar
+function criarList(list, seletor){
+    const filtroUl = document.querySelector(`${seletor}`);
+    list.forEach(
+        item =>{
+            let cor = document.createElement('li');
+            filtroUl.appendChild(cor).innerText = item;
+            console.log(item);
+        }
+        )
+        console.log("rodou function");
+    }
+
 function criarCard(array){
     array.forEach(element => {
         // clubes = new uniformes(element.nome, element.link, element.temporada, element.uniforme);
@@ -140,3 +143,33 @@ navSearch.addEventListener('input' , (e)=>{
     request('http://localhost:8088/LH-PEITAS/base', options);
 })
 //
+
+const filtroCor = document.querySelector('#filtro-listCor');
+filtroCor.addEventListener('click', ()=>{
+    let list = document.querySelector('#filtro-listCor-ul')
+    if(list.getAttribute('hidden') == "false"){
+        list.setAttribute('style','display:none')
+        list.removeAttribute('hidden');
+        list.setAttribute('hidden','true')
+    }else{
+        list.setAttribute('style','display:block')
+        list.removeAttribute('hidden');
+        list.setAttribute('hidden','false')
+        
+    }
+});
+
+const filtroLiga = document.querySelector('#filtro-listLiga');
+filtroLiga.addEventListener('click', ()=>{
+    let list = document.querySelector('#filtro-listLiga-ul')
+    if(list.getAttribute('hidden') == "false"){
+        list.setAttribute('style','display:none')
+        list.removeAttribute('hidden');
+        list.setAttribute('hidden','true')
+    }else{
+        list.setAttribute('style','display:block')
+        list.removeAttribute('hidden');
+        list.setAttribute('hidden','false')
+        
+    }
+});

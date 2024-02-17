@@ -31,13 +31,14 @@ nav{
 
 .area_pesquisa{
     display: flex;
-    width: 25vw;
+    width: 10vw;
     justify-content: end;
     position: absolute;
     right: 0;
 }
 .area_pesquisa input{
     height: 20px;
+    width: 8vw;
     margin-right: 10px;
 }
 .filtro-list{
@@ -52,9 +53,16 @@ nav{
     flex-direction: column;
     box-sizing: border-box;
     background-color: azure;
+    width: 10.1vw
 }
 .filtro-icon{
     cursor: pointer;
+}
+
+.filtro-listCor_content, .filtro-listTemporada_content, .filtro-listLiga_content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 nav .filtro-list li{
@@ -64,8 +72,9 @@ nav .filtro-list li{
     font-size: 13px;
 }
 .main{
-    margin: 0px 200px;
+    margin: 0px 10.2vw;
     height: 90vh;
+    width: 79.6vw;
     background-color: rgba(12, 54, 2, 0.13);
 }
 
