@@ -73,6 +73,7 @@ nav{
     margin: 0 5px 8px 0;
     width: 5px;
     height:  10px;
+    border: 1px solid;
 }
 
 #filtro-listCor-ul li span{
