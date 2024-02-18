@@ -63,7 +63,7 @@ class TimeDaoTest {
 
 		Imagem imagem = new Imagem("","https://www.futebolreligiao.com.br/image/cache/catalog/al-nassr/camisa-i-al-nassr-2023-2024-home-1-900x900.webp?1688595021");
 		new ImagemDao(conn).armazenar(imagem, 1);
-		Set<Base> base = new TimeDao(conn).innerJoin("al-nassr");
+		Set<Base> base = new TimeDao(conn).innerJoin("","","");
 //		base.stream().forEach(System.out::println);
 		System.out.println(base);
 		Assert.assertTrue(base.size()>0);

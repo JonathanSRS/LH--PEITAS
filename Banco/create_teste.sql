@@ -92,4 +92,4 @@ SELECT
 FROM T_LHP_TIME t
     INNER JOIN T_LHP_CAMISA c ON t.cd_time = c.cd_time
     INNER JOIN T_LHP_IMAGEM i ON c.cd_camisa = i.cd_camisa
-WHERE t.nm_time LIKE '%%' AND t.ds_liga like'%la liga%' AND c.ds_cor like '%%'; 
+WHERE t.nm_time LIKE '%%' AND t.ds_liga like'%%' AND c.ds_cor like '%%'; 

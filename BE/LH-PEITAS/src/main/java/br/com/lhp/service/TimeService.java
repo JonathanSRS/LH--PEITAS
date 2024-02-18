@@ -38,9 +38,9 @@ public class TimeService {
 		return new TimeDao(conn).listar();
 	}
 
-	public Set<Base> BaseDeTimes(String nome){
+	public Set<Base> BaseDeTimes(String nome, String cor, String liga){
 		Connection conn = connection.recuperarConexao();
-		return new TimeDao(conn).innerJoin(nome);
+		return new TimeDao(conn).innerJoin(nome, cor, liga);
 	}
 	
 	public Set<Object> listarTodasLigas(){

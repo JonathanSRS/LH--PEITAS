@@ -77,7 +77,7 @@ nav{
 }
 
 #filtro-listCor-ul li span{
-    opacity: 0;
+    display: none;
 }
 
 nav .filtro-list li{

@@ -100,10 +100,12 @@ public class TimeController extends HttpServlet implements BodyReader{
 				ArrayList<Object> base = new ArrayList<>();
 				
 				String time = jsonTxt.get("time").getAsString();
+				String cor = jsonTxt.get("cor").getAsString();
+				String liga = jsonTxt.get("liga").getAsString();
 				
 				response.setContentType("application/json");
 				response.setCharacterEncoding("utf-8");
-				service.BaseDeTimes(time).stream()
+				service.BaseDeTimes(time, cor, liga).stream()
 				.forEach((k) -> {
 					base.add(k);
 				});
@@ -131,6 +133,7 @@ public class TimeController extends HttpServlet implements BodyReader{
 	protected void buscarTime(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		String time = request.getParameter("time");
 		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
 		ArrayList<Object> times = new ArrayList<>();
 		service.buscarPorTime(time).stream()
 		.forEach((k) -> {
@@ -149,6 +152,7 @@ public class TimeController extends HttpServlet implements BodyReader{
 	
 	protected void listaTodasLigas(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
 		ArrayList<Object> ligas = new ArrayList<>();
 		service.listarTodasLigas().stream()
 		.forEach((k) -> {

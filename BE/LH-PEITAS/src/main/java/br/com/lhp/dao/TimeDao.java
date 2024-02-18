@@ -116,7 +116,7 @@ public class TimeDao {
 		return ligas;
 	}
 
-	public Set<Base> innerJoin(String nome){
+	public Set<Base> innerJoin(String nome, String cor, String liga){
 		Set<Base> list = new HashSet<>();
 
 		String sql ="SELECT "
@@ -128,7 +128,9 @@ public class TimeDao {
 	    +" FROM T_LHP_TIME t"
 	    	+" INNER JOIN T_LHP_CAMISA c ON t.cd_time = c.cd_time"
 	    	+" INNER JOIN T_LHP_IMAGEM i ON c.cd_camisa = i.cd_camisa"
-	    +" WHERE t.nm_time LIKE '%"+nome+"%'";
+	    +" WHERE t.nm_time LIKE '%"+nome+"%' AND "
+	    + "c.ds_cor LIKE '%"+cor+"%' AND "
+	    + "t.ds_liga LIKE '%"+liga+"%'";
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			resultSet = preparedStatement.executeQuery();

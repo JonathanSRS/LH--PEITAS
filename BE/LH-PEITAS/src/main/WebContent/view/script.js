@@ -34,6 +34,49 @@ function request(URL, options){
         console.log(e.message))
 }
 
+function nomeCores(item){
+    let li = document.getElementById(`${item}`);
+    
+    li.style.backgroundColor = li.textContent;
+    li.addEventListener('click', ()=>{
+        let cards = document.querySelectorAll(".card");
+        cards.forEach(card =>{
+            card.remove();
+        })
+        const options = {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json;charset=utf-8"
+                },
+            body: JSON.stringify({time:'',cor:item,liga:''})
+            };
+        request('http://localhost:8088/LH-PEITAS/base', options);
+    })
+}
+
+function nomeLigas(item){
+    let li = document.getElementById(`${item.replace(" ","")}`);
+    
+    li.addEventListener('click', ()=>{
+        let cards = document.querySelectorAll(".card");
+        cards.forEach(card =>{
+            card.remove();
+        })
+        const options = {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json;charset=utf-8"
+                },
+            body: JSON.stringify({time:'',cor:'',liga:item})
+            };
+        request('http://localhost:8088/LH-PEITAS/base', options);
+    })
+
+}
 
 const options = {
     mode: 'cors',
@@ -42,7 +85,7 @@ const options = {
         "Accept": "application/json",
         "Content-Type": "application/json;charset=utf-8"
         },
-    body: JSON.stringify({time:''})
+    body: JSON.stringify({time:'',cor:'',liga:''})
     };
 //Inicializar 
 request('http://localhost:8088/LH-PEITAS/base', options);
@@ -61,16 +104,14 @@ function criarList(list, seletor){
             li.appendChild(span).innerText = item;
             if(seletor =="#filtro-listCor-ul"){
                 nomeCores(item)
+            }else if(seletor =="#filtro-listLiga-ul"){
+                nomeLigas(item);
             }
         }
         )
         console.log("rodou function");
     }
 
-function nomeCores(item){
-    let li = document.getElementById(`${item}`);
-    li.style.backgroundColor = li.textContent;
-}
 
 function criarCard(array){
     array.forEach(element => {
@@ -129,30 +170,6 @@ filtro.addEventListener("click", ()=>{
 
     }
 })
-//
-
-// Buscar por Time
-const navSearch = document.querySelector('#nav-search');
-navSearch.addEventListener('input' , (e)=>{
-    let text = e.target.value;
-
-    const cards = document.querySelectorAll(".card");
-    cards.forEach(item =>{
-        item.remove();
-    })
-
-    let options = {
-        mode: 'cors',
-        method: 'POST',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify({time:text})
-        };
-    request('http://localhost:8088/LH-PEITAS/base', options);
-})
-//
 
 const filtroCor = document.querySelector('#filtro-listCor');
 filtroCor.addEventListener('click', ()=>{
@@ -183,3 +200,31 @@ filtroLiga.addEventListener('click', ()=>{
         
     }
 });
+//
+
+// Buscar por Time
+const navSearch = document.querySelector('#nav-search');
+navSearch.addEventListener('input' , (e)=>{
+    let text = e.target.value;
+
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(item =>{
+        item.remove();
+    })
+
+    let options = {
+        mode: 'cors',
+        method: 'POST',
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify({
+            time:text.toLowerCase(),
+            cor:'',
+            liga:''
+            })
+        };
+    request('http://localhost:8088/LH-PEITAS/base', options);
+})
+//
