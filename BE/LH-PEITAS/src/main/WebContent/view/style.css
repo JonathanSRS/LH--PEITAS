@@ -70,6 +70,9 @@ nav{
 }
 
 #filtro-listCor-ul li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0 5px 8px 0;
     width: 5px;
     height:  10px;
@@ -78,6 +81,14 @@ nav{
 
 #filtro-listCor-ul li span{
     display: none;
+}
+#filtro-listCor-ul li input[type=checkbox]{
+    opacity: 0;
+    margin: 0;
+}
+
+#filtro-listCor-ul li input[type=checkbox]:checked{
+    opacity: 1;
 }
 
 nav .filtro-list li{

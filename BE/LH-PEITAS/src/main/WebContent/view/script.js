@@ -1,3 +1,5 @@
+const arrowDownIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAJxJREFUSEvtk9ENgCAMRI9NHE0nUSfR0RxFm0jSIO1VE34MfB/36AMSGq/UuB8dQA3/X9EA4KAenICnaLvLVwJwcxZANo138QLAgtCcBZivcinOqwbR5ZLbAUzltJ4iDxIqFxh7pjWIXHzWZ548T8IAkish2kJViw5EABaElkcU6cPoSULlbwF5ErmDx2ux/kpU0efP3AFUXVdEFZ3dzBsZFLiuBQAAAABJRU5ErkJggg=="
+const arrowUpIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAJZJREFUSEvtk7ENgDAMBD+bMBpMAkwCo8EmYMmRTJTETxFRkDQ07zvzgYDGJzTmowvchv9X0QbgALC63WjgTUUCH3VuYSWswMLj8pSEEeTgtMQTpPBd70C2pyQ1QQ4+KXW+n5SkJKjB4+aUpCSww1JL3Dz9Om1OMpJ9nFpFMjxU4PZNzhxcAt4ls/9TMdcFboW9ou8rugDk6xsZXz5RRwAAAABJRU5ErkJggg==";
 class uniformes{
     constructor(equipe, link, temporada, uniforme){
         this.equipe = equipe;
@@ -36,7 +38,6 @@ function request(URL, options){
 
 function nomeCores(item){
     let li = document.getElementById(`${item}`);
-    
     li.style.backgroundColor = li.textContent;
     li.addEventListener('click', ()=>{
         let cards = document.querySelectorAll(".card");
@@ -103,6 +104,10 @@ function criarList(list, seletor){
             filtroUl.appendChild(li)
             li.appendChild(span).innerText = item;
             if(seletor =="#filtro-listCor-ul"){
+                let input = document.createElement('input')
+                input.type = "checkbox"
+                input.style.accentColor = item;
+                li.appendChild(input)
                 nomeCores(item)
             }else if(seletor =="#filtro-listLiga-ul"){
                 nomeLigas(item);
@@ -171,29 +176,39 @@ filtro.addEventListener("click", ()=>{
     }
 })
 
-const filtroCor = document.querySelector('#filtro-listCor');
+const filtroCor = document.querySelector('.filtro-listCor_content');
 filtroCor.addEventListener('click', ()=>{
-    let list = document.querySelector('#filtro-listCor-ul')
+    let list = document.querySelector('#filtro-listCor-ul');
+    let img = document.querySelector("#filtro-listCor-Icon");
     if(list.getAttribute('hidden') == "false"){
-        list.setAttribute('style','display:none')
+        img.removeAttribute('src');
+        img.setAttribute('src', arrowDownIcon)
+        list.setAttribute('style','display:none');
         list.removeAttribute('hidden');
         list.setAttribute('hidden','true')
     }else{
-        list.setAttribute('style','display:flex')
+        img.removeAttribute('src');
+        img.setAttribute('src', arrowUpIcon)
+        list.setAttribute('style','display:flex');
         list.removeAttribute('hidden');
-        list.setAttribute('hidden','false')
+        list.setAttribute('hidden','false');
         
     }
 });
 
-const filtroLiga = document.querySelector('#filtro-listLiga');
+const filtroLiga = document.querySelector('.filtro-listLiga_content');
 filtroLiga.addEventListener('click', ()=>{
     let list = document.querySelector('#filtro-listLiga-ul')
+    let img = document.querySelector("#filtro-listLiga-Icon");
     if(list.getAttribute('hidden') == "false"){
+        img.removeAttribute('src');
+        img.setAttribute('src', arrowDownIcon)
         list.setAttribute('style','display:none')
         list.removeAttribute('hidden');
         list.setAttribute('hidden','true')
     }else{
+        img.removeAttribute('src');
+        img.setAttribute('src', arrowUpIcon)
         list.setAttribute('style','display:block')
         list.removeAttribute('hidden');
         list.setAttribute('hidden','false')
