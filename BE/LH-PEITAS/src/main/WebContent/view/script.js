@@ -1,3 +1,4 @@
+const BASE_URL = "http://localhost:8088/LH-PEITAS"
 const arrowDownIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAJxJREFUSEvtk9ENgCAMRI9NHE0nUSfR0RxFm0jSIO1VE34MfB/36AMSGq/UuB8dQA3/X9EA4KAenICnaLvLVwJwcxZANo138QLAgtCcBZivcinOqwbR5ZLbAUzltJ4iDxIqFxh7pjWIXHzWZ548T8IAkish2kJViw5EABaElkcU6cPoSULlbwF5ErmDx2ux/kpU0efP3AFUXVdEFZ3dzBsZFLiuBQAAAABJRU5ErkJggg=="
 const arrowUpIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAJZJREFUSEvtk7ENgDAMBD+bMBpMAkwCo8EmYMmRTJTETxFRkDQ07zvzgYDGJzTmowvchv9X0QbgALC63WjgTUUCH3VuYSWswMLj8pSEEeTgtMQTpPBd70C2pyQ1QQ4+KXW+n5SkJKjB4+aUpCSww1JL3Dz9Om1OMpJ9nFpFMjxU4PZNzhxcAt4ls/9TMdcFboW9ou8rugDk6xsZXz5RRwAAAABJRU5ErkJggg==";
 const allSkeleton = document.querySelectorAll('.skeleton');
@@ -89,7 +90,7 @@ function nomeCores(item){
         cards.forEach(card =>{
             card.remove();
         })
-        request(`http://localhost:8088/LH-PEITAS/base?time&cor=${item}&liga`);
+        request(`${BASE_URL}/base?time&cor=${item}&liga`);
     })
 }
 
@@ -100,7 +101,7 @@ function nomeLigas(item){
         cards.forEach(card =>{
             card.remove();
         })
-        request(`http://localhost:8088/LH-PEITAS/base?time&cor&liga=${item}`);
+        request(`${BASE_URL}/base?time&cor&liga=${item}`);
     })
 
 }
@@ -163,9 +164,9 @@ function changeArrow(boolean, icon){
 // END Create
 
 //Initialize 
-request('http://localhost:8088/LH-PEITAS/base?time&cor&liga');
-getList("http://localhost:8088/LH-PEITAS/listUniformes/cores", "#filtro-listCor-ul");
-getList("http://localhost:8088/LH-PEITAS/listarTimes/ligas", "#filtro-listLiga-ul");
+request(BASE_URL+'/base?time&cor&liga');
+getList(BASE_URL+"/listUniformes/cores", "#filtro-listCor-ul");
+getList(BASE_URL+"/listarTimes/ligas", "#filtro-listLiga-ul");
 // END Initialize
 
 // Events
@@ -201,6 +202,6 @@ navSearch.addEventListener('input' , (e)=>{
     cards.forEach(item =>{
         item.remove();
     })
-    request(`http://localhost:8088/LH-PEITAS/base?time=${text.toLowerCase()}&cor&liga`);
+    request(`${BASE_URL}/base?time=${text.toLowerCase()}&cor&liga`);
 })
 // END Events
