@@ -9,6 +9,16 @@ class uniformes{
     }
 }
 
+// const options = {
+//     mode: 'cors',
+//     method: 'GET',
+//     headers: {
+//         "Accept": "application/json",
+//         "Content-Type": "application/json;charset=utf-8"
+//         },
+//          body: JSON.stringify({time:'',cor:'',liga:''})
+//     };
+
 function getService(URL, seletor){  
     let options = {
             mode: 'cors',
@@ -26,7 +36,15 @@ function getService(URL, seletor){
             console.log(e.message))
 }
 
-function request(URL, options){
+function request(URL){
+    const options = {
+        mode: 'cors',
+        method: 'GET',
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json;charset=utf-8"
+            }
+        };
     fetch(`${URL}`,options)
     .then(resp =>resp.json())
     .then(data => {
@@ -44,16 +62,7 @@ function nomeCores(item){
         cards.forEach(card =>{
             card.remove();
         })
-        const options = {
-            mode: 'cors',
-            method: 'POST',
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json;charset=utf-8"
-                },
-            body: JSON.stringify({time:'',cor:item,liga:''})
-            };
-        request('http://localhost:8088/LH-PEITAS/base', options);
+        request(`http://localhost:8088/LH-PEITAS/base?time&cor=${item}&liga`);
     })
 }
 
@@ -65,31 +74,13 @@ function nomeLigas(item){
         cards.forEach(card =>{
             card.remove();
         })
-        const options = {
-            mode: 'cors',
-            method: 'POST',
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json;charset=utf-8"
-                },
-            body: JSON.stringify({time:'',cor:'',liga:item})
-            };
-        request('http://localhost:8088/LH-PEITAS/base', options);
+        request(`http://localhost:8088/LH-PEITAS/base?time&cor&liga=${item}`);
     })
 
 }
 
-const options = {
-    mode: 'cors',
-    method: 'POST',
-    headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json;charset=utf-8"
-        },
-    body: JSON.stringify({time:'',cor:'',liga:''})
-    };
 //Inicializar 
-request('http://localhost:8088/LH-PEITAS/base', options);
+request('http://localhost:8088/LH-PEITAS/base?time&cor&liga');
 getService("http://localhost:8088/LH-PEITAS/listUniformes/cores", "#filtro-listCor-ul");
 getService("http://localhost:8088/LH-PEITAS/listarTimes/ligas", "#filtro-listLiga-ul");
 
@@ -102,6 +93,7 @@ function criarList(list, seletor){
             let span = document.createElement('span')
             li.setAttribute('id', item.replace(" ",""));
             filtroUl.appendChild(li)
+            li.setAttribute("alt", item)
             li.appendChild(span).innerText = item;
             if(seletor =="#filtro-listCor-ul"){
                 let input = document.createElement('input')
@@ -227,19 +219,6 @@ navSearch.addEventListener('input' , (e)=>{
         item.remove();
     })
 
-    let options = {
-        mode: 'cors',
-        method: 'POST',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify({
-            time:text.toLowerCase(),
-            cor:'',
-            liga:''
-            })
-        };
-    request('http://localhost:8088/LH-PEITAS/base', options);
+    request(`http://localhost:8088/LH-PEITAS/base?time=${text.toLowerCase()}&cor&liga`);
 })
 //

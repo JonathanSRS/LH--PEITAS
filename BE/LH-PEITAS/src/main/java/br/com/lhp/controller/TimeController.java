@@ -35,6 +35,9 @@ public class TimeController extends HttpServlet implements BodyReader{
 		case "/buscarTime":
 			buscarTime(request, response);
 			break;
+		case "/base":
+			base(request, response);
+			break;
 		default:
 			break;
 		}
@@ -48,9 +51,6 @@ public class TimeController extends HttpServlet implements BodyReader{
         response.setHeader("Access-Control-Max-Age", "3600");
 		String acao = request.getServletPath();
 		switch (acao) {
-		case "/base":
-			base(request, response);
-			break;
 		case "/postTime":
 			criarTime(request, response);			
 			break;
@@ -95,14 +95,17 @@ public class TimeController extends HttpServlet implements BodyReader{
 	protected void base(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		if(request.getContentType() != null && request.getContentType().contains("application/json")) {
 			try {
-				BufferedReader  data =  request.getReader();
-				JsonObject jsonTxt = (JsonObject) ler(data);
+//				BufferedReader  data =  request.getReader();
+//				JsonObject jsonTxt = (JsonObject) ler(data);
+				
+//				String time = jsonTxt.get("time").getAsString();
+//				String cor = jsonTxt.get("cor").getAsString();
+//				String liga = jsonTxt.get("liga").getAsString();
+			
+				String time = request.getParameter("time");
+				String cor = request.getParameter("cor");
+				String liga = request.getParameter("liga");
 				ArrayList<Object> base = new ArrayList<>();
-				
-				String time = jsonTxt.get("time").getAsString();
-				String cor = jsonTxt.get("cor").getAsString();
-				String liga = jsonTxt.get("liga").getAsString();
-				
 				response.setContentType("application/json");
 				response.setCharacterEncoding("utf-8");
 				service.BaseDeTimes(time, cor, liga).stream()
