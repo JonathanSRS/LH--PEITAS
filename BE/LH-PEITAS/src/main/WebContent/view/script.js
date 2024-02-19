@@ -6,18 +6,45 @@ const navSearch = document.querySelector('#nav-search');
 const filtro = document.getElementById('filtro-icon');
 const filtroCor = document.querySelector('.filtro-listCor_content');
 const filtroLiga = document.querySelector('.filtro-listLiga_content');
-class uniformes{
-    constructor(equipe, link, temporada, uniforme){
-        this.equipe = equipe;
-        this.link = link;
-        this.temporada = temporada;
-        this.uniforme = uniforme;
+class camisas{
+    constructor(data){
+        this.equipe = data.nome;
+        this.link = data.link;
+        this.temporada = data.temporada;
+        this.uniforme = data.uniforme;
+    }
+    criarCard(){
+        let idList = document.querySelector('#list');
+        let card = document.createElement('div');
+        let equipeDiv = document.createElement('div');
+        let temporadaDiv = document.createElement('div');
+        let corDiv = document.createElement('div');
+        let imagem = document.createElement('img');
+        let equipe = document.createElement('span');
+        let temporada = document.createElement('span');
+        let cor = document.createElement('span');
+        
+        equipeDiv.appendChild(equipe).innerText = 'Equipe: ' +this.equipe.replace(this.equipe[0], this.equipe[0].toUpperCase());
+        temporadaDiv.appendChild(temporada).innerText = 'Temporada: '+ this.temporada.substring(0,4);
+        corDiv.appendChild(cor).innerText = 'Nome: '+ this.uniforme;
+        card.appendChild(imagem).setAttribute('src', this.link);
+        card.appendChild(equipeDiv);
+        card.appendChild(temporadaDiv);
+        card.appendChild(corDiv);
+        card.setAttribute('class','card skeleton');
+        idList.appendChild(card);
+        let allSkeleton = document.querySelectorAll('.skeleton');
+        function skeleton(){
+            allSkeleton.forEach(item=>{
+                item.classList.remove('skeleton')
+            })}
+        skeleton();
     }
 }
 
 // const options = {
 //     mode: 'cors',
-//     method: 'GET',
+//     method: 'POST',
 //     headers: {
 //         "Accept": "application/json",
 //         "Content-Type": "application/json;charset=utf-8"
@@ -50,38 +77,6 @@ function criarList(list, seletor){
     console.log("rodou function");
 }
 
-function criarCard(array){
-    array.forEach(element => {
-        // clubes = new uniformes(element.nome, element.link, element.temporada, element.uniforme);
-        // console.log(clubes);
-        let idList = document.querySelector('#list');
-        let card = document.createElement('div');
-        let equipeDiv = document.createElement('div');
-        let temporadaDiv = document.createElement('div');
-        let corDiv = document.createElement('div');
-        let imagem = document.createElement('img');
-        let equipe = document.createElement('span');
-        let temporada = document.createElement('span');
-        let cor = document.createElement('span');
-        
-        equipeDiv.appendChild(equipe).innerText = 'Equipe: ' +element.nome.replace(element.nome[0], element.nome[0].toUpperCase());
-        temporadaDiv.appendChild(temporada).innerText = 'Temporada: '+ element.temporada.substring(0,4);
-        corDiv.appendChild(cor).innerText = 'Nome: '+ element.uniforme;
-        card.appendChild(imagem).setAttribute('src', element.link);
-        card.appendChild(equipeDiv);
-        card.appendChild(temporadaDiv);
-        card.appendChild(corDiv);
-        card.setAttribute('class','card skeleton');
-        idList.appendChild(card);
-        let allSkeleton = document.querySelectorAll('.skeleton');
-        function skeleton(){
-            allSkeleton.forEach(item=>{
-                item.classList.remove('skeleton')
-            })}
-        skeleton();
-    });
-}
-
 function nomeCores(item){
     let li = document.getElementById(`${item}`);
     li.style.backgroundColor = li.textContent;
@@ -90,7 +85,11 @@ function nomeCores(item){
         cards.forEach(card =>{
             card.remove();
         })
-        request(`${BASE_URL}/base?time&cor=${item}&liga`);
+        Promise.resolve(request(`${BASE_URL}/base?time&cor=${item}&liga`))
+        .then(data =>{data.forEach(i=>{
+                new camisas(i).criarCard()
+            })
+        })
     })
 }
 
@@ -101,27 +100,15 @@ function nomeLigas(item){
         cards.forEach(card =>{
             card.remove();
         })
-        request(`${BASE_URL}/base?time&cor&liga=${item}`);
+        Promise.resolve(request(`${BASE_URL}/base?time&cor&liga=${item}`))
+        .then(data =>{data.forEach(i=>{
+                new camisas(i).criarCard()
+            })
+        });
     })
 
 }
 // Requests functions
-function getList(URL, seletor){  
-    let options = {
-            mode: 'cors',
-            method: 'GET',
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json;charset=utf-8"
-                }
-            };
-
-    fetch(`${URL}`,options)
-        .then((resp) => resp.json())
-        .then((data) => criarList(data,seletor))
-        .catch(e => console.log(e.message))
-}
-
 function request(URL){
     const options = {
         mode: 'cors',
@@ -131,13 +118,10 @@ function request(URL){
             "Content-Type": "application/json;charset=utf-8"
             }
         };
-    fetch(`${URL}`,options)
+    return fetch(`${URL}`,options)
     .then(resp =>resp.json())
-    .then(data => {
-        criarCard(data)
-    })
     .catch(e =>
-        console.log(e.message))
+        console.log(e.message));
 } // END Requests functions
 // Hidden list
 function hidden(display, element){
@@ -164,9 +148,17 @@ function changeArrow(boolean, icon){
 // END Create
 
 //Initialize 
-request(BASE_URL+'/base?time&cor&liga');
-getList(BASE_URL+"/listUniformes/cores", "#filtro-listCor-ul");
-getList(BASE_URL+"/listarTimes/ligas", "#filtro-listLiga-ul");
+Promise.resolve(request(BASE_URL+'/base?time&cor&liga'))
+.then(data =>{data.forEach(item=>{
+        new camisas(item).criarCard()
+    })
+});
+Promise.resolve(request(BASE_URL+"/listUniformes/cores")).then(data=>{
+    criarList(data,"#filtro-listCor-ul")
+})
+Promise.resolve(request(BASE_URL+"/listarTimes/ligas")).then(data=>{
+    criarList(data,"#filtro-listLiga-ul")
+})
 // END Initialize
 
 // Events
@@ -202,6 +194,12 @@ navSearch.addEventListener('input' , (e)=>{
     cards.forEach(item =>{
         item.remove();
     })
-    request(`${BASE_URL}/base?time=${text.toLowerCase()}&cor&liga`);
+    // request(`${BASE_URL}/base?time=${text.toLowerCase()}&cor&liga`);
+    Promise.resolve(request(`${BASE_URL}/base?time=${text.toLowerCase()}&cor&liga`))
+    .then(data =>{
+        data.forEach(item=>{
+            new camisas(item).criarCard()
+        })
+    })
 })
 // END Events
